@@ -10,8 +10,8 @@ const factory = require('../models/mono_factory')
 const monoService = {
 
     createMono(params) {
-        const mono = factory.create(params);
-        return repository.create(mono);
+        const mono = factory.createFromDict(params);
+        return monoRepository.create(mono);
     },
 
     getMono(params) {

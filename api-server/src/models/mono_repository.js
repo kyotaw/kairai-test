@@ -8,7 +8,7 @@ const monoRepository = {
 
     create(mono) {
         return new Promise((resolve, reject) => {
-            MonoEntity.createFromDict(mono.toDict()).then((inst) => {
+            MonoEntity.create(mono.toDict()).then((inst) => {
                 mono.id = inst.id;
                 resolve(mono);
             }, (err) => {

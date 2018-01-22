@@ -4,7 +4,9 @@ const array = require('../helpers/array');
 
 function successResponse(res, data=null, dataName='data') {
     if (data) {
-        res.json({status: 'success', dataName: data});
+        let body = {status: 'success'};
+        body[dataName] = data
+        res.json(body);
     } else {
         res.json({status: 'success'});
     }

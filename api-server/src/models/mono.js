@@ -18,7 +18,7 @@ class Mono {
     }
 
     toDict() {
-        let dict = {
+        return {
             id: this.id,
             name: this.name,
             modelNumber: this.productId.modelNumber,
