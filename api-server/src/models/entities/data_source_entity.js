@@ -1,7 +1,6 @@
 'use strict';
 
-const db = require('../../infrastructures/sequelizedb')
-    , DataSourceEntity = require('./data_source_entity').DataSourceEntity;
+const db = require('../../infrastructures/sequelizedb');
 
 const schema = {
     properties: {
@@ -10,15 +9,14 @@ const schema = {
         modelNumber: { type: db.Sequelize.STRING, allowNull: false },
         serialNumber: { type: db.Sequelize.STRING, allowNull: false },
         vendorName: { type: db.Sequelize.STRING, allowNull: false },
-        hash: { type: db.Sequelize.STRING, allowNull: false },
+        sourceType: { type: db.Sequelize.STRING, allowNull: false }, 
+        transferredBytes: { type: db.Sequelize.BIGINT, allowNull: false, defaultValue: 0 }, 
     }
 }
 
-const MonoEntity = db.define('mono', schema);
-
-MonoEntity.hasMany(DataSourceEntity);
+const DataSourceEntity = db.define('data_source', schema);
 
 module.exports = {
-    MonoEntity: MonoEntity,
+    DataSourceEntity: DataSourceEntity,
     schema: schema
 }

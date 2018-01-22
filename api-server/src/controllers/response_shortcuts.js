@@ -1,12 +1,17 @@
 'use strict';
 
+const array = require('../helpers/array');
 
-function successResponse(res, data=null) {
+function successResponse(res, data=null, dataName='data') {
     if (data) {
-        res.json({status: 'success', data: data.toDict()});
+        res.json({status: 'success', dataName: data});
     } else {
         res.json({status: 'success'});
     }
+}
+
+function errorResponse(res, err) {
+    res.json({status: 'error', message: err.message, errorCode: err.errorType});
 }
 
 function error500Response(res, err) {
@@ -24,6 +29,7 @@ function jsonResponseOr500Error(res, err, data) {
 
 module.exports = {
     successResponse: successResponse,
+    errorResponse: errorResponse,
     error500Response: error500Response,
     jsonResponseOr500Error: jsonResponseOr500Error,
 }

@@ -9,7 +9,11 @@ function route() {
 
     // monos
     const monos = root + 'monos/';
+    router.get(monos, monoControlelr.get);
     router.post(monos, monoControlelr.create);
+    const dataSources = monos + ':monoHash';
+    router.get(dataSources, monoControlelr.getAllDataSources);
+    router.post(dataSources, monoControlelr.addDataSource);
 
     return router;
 }
