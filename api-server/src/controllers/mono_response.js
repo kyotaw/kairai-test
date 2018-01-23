@@ -6,11 +6,15 @@ function monosResponse(monos) {
     if (array.isArray(monos)) {
         let resArray = [];
         for (let m of monos) {
-            resArray.push(m.toDict());
+            let dict = m.toDict();
+            dict['dataSources'] = dataSourcesResponse(m.dataSources);
+            resArray.push(dict);
         }
         return resArray;
     } else {
-        return monos.toDict();
+        let dict = monos.toDict();
+        dict['dataSources'] = dataSourcesResponse(monos.dataSources);
+        return dict;
     }
 }
 
