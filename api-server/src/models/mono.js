@@ -14,6 +14,7 @@ class Mono {
 
     addDataSource(dataSource) {
         dataSource.monoId = this.id;
+        dataSource.monoHash = this.productId.hash;
         this.dataSources.push(dataSource);
     }
 

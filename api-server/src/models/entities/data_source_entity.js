@@ -9,8 +9,10 @@ const schema = {
         modelNumber: { type: db.Sequelize.STRING, allowNull: false },
         serialNumber: { type: db.Sequelize.STRING, allowNull: false },
         vendorName: { type: db.Sequelize.STRING, allowNull: false },
+        hash: { type: db.Sequelize.STRING, allowNull: false },
         sourceType: { type: db.Sequelize.STRING, allowNull: false }, 
         transferredBytes: { type: db.Sequelize.BIGINT, allowNull: false, defaultValue: 0 }, 
+        monoHash: { type: db.Sequelize.STRING, allowNull: false }, 
     }
 }
 

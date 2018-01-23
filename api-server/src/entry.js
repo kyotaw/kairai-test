@@ -7,7 +7,8 @@ const express = require('express')
   , env = require('./env')
   , db = require('./infrastructures/db')
   , cors = require('./middlewares/cors.js')
-  , route = require('./routes');
+  , routes = require('./routes')
+  , routes_ws = require('./routes_ws');
 
 function start() {
 	var app = express();
@@ -15,10 +16,11 @@ function start() {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
     app.use(cors);
-    app.use(route());
+    app.use(routes());
 
     const server = http.createServer(app);
     const io = socketio(server);
+    routes_ws(io);
 
     db.start().then(() => {
 	    server.listen(app.get('port'), () => {

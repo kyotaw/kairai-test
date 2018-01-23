@@ -5,7 +5,7 @@ const factory = require('../models/mono_factory')
     , dataSourceFactory = require('../models/data_source_factory')
     , dataSourceRepository = require('../models/data_source_repository')
     , ProductId = require('../models/product_id').ProductId
-    , errors = require('../services/errors');
+    , errors = require('../errors');
 
 const monoService = {
 
@@ -14,59 +14,39 @@ const monoService = {
         return monoRepository.create(mono);
     },
 
-    getMono(params) {
-        const productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
+    getMonos(params) {
         return new Promise((resolve, reject) => {
-            monoRepository.get(productId.hash).then((mono) => {
-                if (mono) {
-                    resolve(mono);
-                } else {
-                    reject(new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND, 'mono not found'));
-                }
-            }, (err) => {
-                reject(err);
-            });
+            try {
+                monoRepository.get(params).then(monos => {
+                    resolve(monos);
+                }, err => {
+                    reject(err);
+                }).catch(err => {
+                    reject(err);
+                });
+            } catch (err) {
+                reject(errors.internalError());
+            }
        });
     },
 
-    addDataSource(monoHash, params) {
-        return new Promise((resolve, reject) => {
-            monoRepository.get(monoHash).then((mono) => {
-                if (!mono) {
-                    reject(new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND, 'mono not found'));
-                } else {
-                    const dataSource = dataSourceFactory.createFromDict(params);
-                    mono.addDataSource(dataSource);
-                    return dataSourceRepository.create(dataSource);
-                }
-            }, (err) => {
-                reject(err);
-            }).catch((err) => {
-                reject(errors.internalError());
-            }).then((dataSource) => {
-                resolve(dataSource);
-            }, (err) => {
-                reject(err);
-            }).catch((err) => {
-                reject(errors.internalError());
-            });
-        });
+    async addDataSource(monoHash, params) {
+        let monos = await monoRepository.get({hash: monoHash});
+        if (monos.length === 0) {
+            throw new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND); 
+        }
+        const dataSource = dataSourceFactory.createFromDict(params);
+        monos[0].addDataSource(dataSource);
+        await dataSourceRepository.create(dataSource);
+        return dataSource;
     },
 
-    getAllDataSources(monoHash) {
-        return new Promise((resolve, reject) => {
-            monoRepository.get(monoHash).then((mono) => {
-                if (!mono) {
-                    reject(new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND, 'mono not found'));
-                } else {
-                    resolve(mono.dataSources);
-                } 
-            }, (err) => {
-                reject(err);
-            }).catch((err) => {
-                reject(err);
-            });
-        });
+    async getAllDataSources(monoHash) {
+        let monos = await monoRepository.get({hash: monoHash});
+        if (monos.length === 0) {
+            throw new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND); 
+        }
+        return monos[0].dataSources;
     }
 }
 

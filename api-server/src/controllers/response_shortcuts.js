@@ -1,6 +1,7 @@
 'use strict';
 
-const array = require('../helpers/array');
+const array = require('../helpers/array')
+    , errors = require('../errors');
 
 function successResponse(res, data=null, dataName='data') {
     if (data) {
@@ -13,7 +14,11 @@ function successResponse(res, data=null, dataName='data') {
 }
 
 function errorResponse(res, err) {
-    res.json({status: 'error', message: err.message, errorCode: err.errorType});
+    if (err) {
+        res.json({status: 'error', message: err.message, errorCode: err.errorType});
+    } else {
+        errorResponse(res, errors.internalError());
+    }
 }
 
 function error500Response(res, err) {

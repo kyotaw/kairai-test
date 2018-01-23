@@ -21,7 +21,8 @@ class DataSource {
             vendorName: this.productId.vendorName,
             hash: this.productId.hash,
             sourceType: this.sourceType,
-            transferredBytes: this.transferredBytes
+            transferredBytes: this.transferredBytes,
+            monoHash: this.monoHash
         }
     }
 }

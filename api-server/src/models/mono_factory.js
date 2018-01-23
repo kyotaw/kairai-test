@@ -4,7 +4,7 @@ const Mono = require('./mono').Mono
     , ProductId = require('./product_id').ProductId
     , MonoEntity = require('./entities/mono_entity').MonoEntity
     , dataSourceFactory = require('./data_source_factory')
-    , errors = require('../services/errors');
+    , errors = require('../errors');
 
 const monoFactory = {
 

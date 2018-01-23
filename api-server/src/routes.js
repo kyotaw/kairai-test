@@ -1,21 +1,36 @@
 'use strict';
 
 const Router = require('express').Router
-    , monoControlelr = require('./controllers/mono_controller');
+    , monoControlelr = require('./controllers/mono_controller')
+    , monoFilter = require('./middlewares/mono_filter')
+    , errors = require('./errors')
+    , shortcut = require('./controllers/response_shortcuts');
 
-function route() {
+function routes() {
     const root = '/api/';
     let router = Router();
 
     // monos
     const monos = root + 'monos/';
-    router.get(monos, monoControlelr.get);
-    router.post(monos, monoControlelr.create);
-    const dataSources = monos + ':monoHash';
+    router.get(monos, monoFilter.validate_get, monoControlelr.get);
+    router.post(monos, monoFilter.validate_create, monoControlelr.create);
+    
+    // data sources
+    const dataSources = monos + ':monoHash/data_sources';
     router.get(dataSources, monoControlelr.getAllDataSources);
     router.post(dataSources, monoControlelr.addDataSource);
+
+    // error
+    router.use((err, req, res, next) => {
+        res.status(err.status || 500);
+        if (err instanceof errors.KairaiError) {
+            shortcut.errorResponse(res, err);
+        } else {
+            shortcut.errorResponse(res);
+        }
+    });
 
     return router;
 }
 
-module.exports = route;
+module.exports = routes;
