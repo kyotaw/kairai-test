@@ -1,18 +1,19 @@
 'use strict';
 
-const DataSourceEntity = require('../models/entities/data_source_entity').DataSourceEntity;
+const DataSourceEntity = require('../models/entities/data_source_entity').DataSourceEntity
+    , factory = require('../models/data_source_factory');
 
 const dataSourceRepository = {
 
-    create(dataSource) {
-        return new Promise((resolve, reject) => {
-            DataSourceEntity.create(dataSource.toDict()).then((inst) => {
-                dataSource.id = inst.id;
-                resolve(dataSource);
-            }, (err) => {
-                reject(err);
-            });
-        });
+    async create(dataSource) {
+        let entity = await DataSourceEntity.create(dataSource.toDict());
+        dataSource.id = entity.id;
+        return dataSource;
+    },
+
+    async getByHash(hash) {
+        const entity = await DataSourceEntity.find({where: {hash: hash}});
+        return factory.createFromEntity(entity);
     }
 }
 

@@ -3,6 +3,10 @@
 const array = require('../helpers/array')
     , errors = require('../errors');
 
+function errorPayload(err) {
+    return {status: 'error', message: err.message, errorCode: err.errorType};
+}
+
 function successResponse(res, data=null, dataName='data') {
     if (data) {
         let body = {status: 'success'};
@@ -35,6 +39,7 @@ function jsonResponseOr500Error(res, err, data) {
 
 
 module.exports = {
+    errorPayload: errorPayload,
     successResponse: successResponse,
     errorResponse: errorResponse,
     error500Response: error500Response,

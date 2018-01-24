@@ -7,6 +7,12 @@ const ErrorTypes = {
 
     MONO_ALREADY_EXISTS: 201,
     MONO_NOT_FOUND: 202,
+
+    DATA_SOURCE_ALREADY_EXISTS: 301,
+    DATA_SOURCE_NOT_FOUND: 302,
+    
+    CHANNEL_ALREADY_OPEN: 401,
+    CHANNEL_NOT_OPEN: 402,
 }
 
 let ErrorMessages = {}
@@ -17,6 +23,11 @@ ErrorMessages[ErrorTypes.MISSING_PARAMETERS] = 'missing parameters';
 ErrorMessages[ErrorTypes.MONO_ALREADY_EXISTS] = 'the mono already exists';
 ErrorMessages[ErrorTypes.MONO_NOT_FOUND] = 'the mono not found';
 
+ErrorMessages[ErrorTypes.DATA_SOURCE_ALREADY_EXISTS] = 'the data source already exists';
+ErrorMessages[ErrorTypes.DATA_SOURCE_NOT_FOUND] = 'the data source not found';
+
+ErrorMessages[ErrorTypes.CHANNEL_ALREADY_OPEN] = 'channel already open';
+ErrorMessages[ErrorTypes.CHANNEL_ALREADY_OPEN] = 'channel not open';
 
 class KairaiError extends Error {
     constructor(errorType, message=null) {
