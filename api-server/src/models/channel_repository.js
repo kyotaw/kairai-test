@@ -4,8 +4,12 @@ const channelRepository = {
 
     channels: {},
 
-    async create(channelHost) {
-        this.channels[channelHost.channelId] = channelHost;
+    async create(channel) {
+        this.channels[channel.channelId] = channel;
+    },
+
+    async delete(channel) {
+        delete this.channels[channel.channelId];
     },
 
     async get(channelId) {
@@ -13,7 +17,7 @@ const channelRepository = {
             return this.channels[channelId];
         }
         return null;
-    }
+    },
 }
 
 module.exports = channelRepository;

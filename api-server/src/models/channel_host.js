@@ -1,32 +1,41 @@
 'use strict';
 
 const ChannelMember = require('./channel_member').ChannelMember
-    , ChannelListener = require('./channel_listener').ChannelListener;
+    , ChannelStates = require('./channel_status').ChannelStates;
 
 class ChannelHost extends ChannelMember {
 
-    constructor(dataSource, socket) {
-        super(dataSource, socket);
-        this.listeners = [];
-        this.socket.on('data', this.onData);
+    constructor(dataSource, conn) {
+        super(dataSource.productId.hash);
+        this.dataSource = dataSource;
+        this.conn = conn;
+        
+        this.conn.on('disconnect', reason => {
+            if (this.channel) {
+                this.status.state = ChannelStates.OFFLINE;
+                console.log('State Offline')
+                this.channel.onHostDisconnect();
+            }
+        });
     }
 
-    start() {
-        this.soket.emit('start');
+    async start() {
+        this.conn.emit('start');
+        this.status.state = ChannelStates.ACTIVE;
+        this.conn.on('data', data => {
+            if (this.channel) {
+                this.channel.onData(data);
+            }
+        });
+        console.log('State Active')
     }
 
-    stop() {
-        this.socket.emit('stop');
+    async stop() {
+        this.conn.emit('stop');
+        this.status.state = ChannelStates.READY;
+        console.log('State Ready')
     }
 
-    addListener(listenerSocket) {
-        const listener = new ChannelListener(this.dataSource, listenerSocket);
-        this.listeners.push(listener);
-    }
-
-    onData(data) {
-        this.socket.broadcast.emit(data);
-    }
 }
 
 module.exports.ChannelHost = ChannelHost;

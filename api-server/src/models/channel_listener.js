@@ -1,11 +1,28 @@
 'use strict';
 
-const ChannelMember = require('./channel_member').ChannelMember;
+const ChannelMember = require('./channel_member').ChannelMember
+    , ChannelStates = require('./channel_status').ChannelStates;
 
 class ChannelListener extends ChannelMember {
 
-    constructor(dataSource, socket) {
-        super(dataSource, socket);
+    constructor(channelId, conn) {
+        super(channelId);
+        this.conn = conn;
+        
+        this.conn.on('disconnect', reason => {
+            if (this.channel) {
+                this.channel.onListenerDisconnect(this);
+            }
+        });
+    }
+
+    disconnect() {
+        this.conn.disconnect();
+        this.status.state = ChannelStates.OFFLINE;
+    }
+
+    recieve(data) {
+        this.conn.emit('data', data);
     }
 }
 
