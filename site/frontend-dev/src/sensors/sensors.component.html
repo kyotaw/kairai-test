@@ -1,0 +1,21 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-title>My Accelermetar</mat-card-title>
+      <mat-card-subtitle>iPhone7 Plus</mat-card-subtitle>
+      <mat-card-content>
+      <ul>
+          <li>Type: Accelermetar</li>
+          <li>Status: Ready</li>
+          <li>Location: private</li>
+      </ul>
+      </mat-card-content>
+      <mat-divider [inset]="true"></mat-divider>
+      <mat-card-actions>
+          <button class="btn" mat-button matTooltip="{{hash}}" ngxClipboard [cbContent]="hash">Copy hash</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
