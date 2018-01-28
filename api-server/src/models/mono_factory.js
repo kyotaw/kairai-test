@@ -16,11 +16,6 @@ const monoFactory = {
     async createFromEntity(params) {
         let mono = monoFactory.createFromDict(params);
         mono.id = params.id;
-        const dataSources = await params.getData_sources();
-        for (let dsParams of dataSources) {
-            const ds = dataSourceFactory.createFromEntity(dsParams);
-            mono.dataSources.push(ds);
-        }
         return mono;
     }
 }

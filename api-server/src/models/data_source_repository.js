@@ -1,7 +1,8 @@
 'use strict';
 
-const DataSourceEntity = require('../models/entities/data_source_entity').DataSourceEntity
-    , factory = require('../models/data_source_factory');
+const DataSourceEntity = require('./entities/data_source_entity').DataSourceEntity
+    , dataSourceFactory = require('./data_source_factory')
+    , channelRepository = require('./channel_repository');
 
 const dataSourceRepository = {
 
@@ -13,7 +14,36 @@ const dataSourceRepository = {
 
     async getByHash(hash) {
         const entity = await DataSourceEntity.find({where: {hash: hash}});
-        return factory.createFromEntity(entity);
+        let dataSource = await dataSourceFactory.createFromEntity(entity);
+        return await this._fetch_state(dataSource);
+    },
+
+    async getByMonoHash(monoHash) {
+        const entities = await DataSourceEntity.findAll({where: {monoHash: monoHash}});
+        return await this._createFromEntity(entities);
+    },
+
+    async getAll() {
+        const entities = await DataSourceEntity.findAll();
+        return await this._createFromEntity(entities);
+    },
+
+    async _createFromEntity(entities) {
+        let sources = [];
+        for (let e of entities) {
+            let source = await dataSourceFactory.createFromEntity(e);
+            source = await this._fetch_state(source);
+            sources.push(source);
+        }
+        return sources;
+    },
+
+    async _fetch_state(dataSource) {
+        const channel = await channelRepository.get(dataSource.productId.hash);
+        if (channel) {
+            dataSource.status = channel.status.state;
+        }
+        return dataSource;
     }
 }
 

@@ -1,7 +1,8 @@
 'use strict';
 
 const monoService = require('../services/mono_service')
-    , response = require('./mono_response')
+    , monoResponse = require('./mono_response')
+    , dataSourceResponse = require('./data_source_response')
     , shortcut = require('./response_shortcuts')
     , errorTypes = require('../errors').ErrorTypes;
 
@@ -9,7 +10,7 @@ const monoControlelr = {
 
     create(req, res) {
         monoService.createMono(req.body).then((mono) => {
-            shortcut.successResponse(res, response.monosResponse(mono));
+            shortcut.successResponse(res, monoResponse.monosResponse(mono));
         }, (err) => {
             if (err.errorType === errorTypes.MONO_ALREADY_EXISTS) {
                 res.status(400);
@@ -22,7 +23,7 @@ const monoControlelr = {
 
     get(req, res) {
         monoService.getMonos(req.query).then((monos) => {
-            shortcut.successResponse(res, response.monosResponse(monos)); 
+            shortcut.successResponse(res, monoResponse.monosResponse(monos)); 
         }, (err) => {
             if (err.errorType === errorTypes.MONO_NOT_FOUND) {
                 res.status(400);
@@ -35,7 +36,7 @@ const monoControlelr = {
 
     addDataSource(req, res) {
         monoService.addDataSource(req.params.monoHash, req.body).then((dataSource) => {
-            shortcut.successResponse(res, response.dataSourcesResponse(dataSource));
+            shortcut.successResponse(res, dataSourceResponse.dataSourcesResponse(dataSource));
         }, (err) => {
             if (err.errorType === errorTypes.MONO_NOT_FOUND) {
                 res.status(400);
@@ -48,7 +49,7 @@ const monoControlelr = {
 
     getAllDataSources(req, res) {
         monoService.getAllDataSources(req.params.monoHash).then((dataSources) => {
-            shortcut.successResponse(res, response.dataSourcesResponse(dataSources));
+            shortcut.successResponse(res, dataSourceResponse.dataSourcesResponse(dataSources));
         }, (err) => {
             if (err.errorType === errorTypes.MONO_NOT_FOUND) {
                 res.status(400);

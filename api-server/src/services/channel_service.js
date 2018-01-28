@@ -3,6 +3,7 @@
 const ChannelHost = require('../models/channel_host').ChannelHost
     , ChannelListener = require('../models/channel_listener').ChannelListener
     , Channel = require('../models/channel').Channel
+    , ChannelStates = require('../models/channel_status').ChannelStates
     , channelRepository = require('../models/channel_repository')
     , dataSourceRepository = require('../models/data_source_repository')
     , errors = require('../errors');
@@ -51,6 +52,7 @@ const channelService = {
         }
         return channel;
     }
+
 }
 
 module.exports = channelService;

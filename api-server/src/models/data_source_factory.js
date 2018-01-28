@@ -14,7 +14,7 @@ const dataSourceFactory = {
         return new DataSource(params.name, productId, params.sourceType);
     },
 
-    createFromEntity(params) {
+    async createFromEntity(params) {
         if (!params) {
             return null;
         }

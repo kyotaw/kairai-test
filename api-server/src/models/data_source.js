@@ -1,5 +1,7 @@
 'use strict';
 
+const ChannelStates = require('../models/channel_status').ChannelStates;
+
 class DataSource {
 
     constructor(name, productId, sourceType) {
@@ -9,6 +11,7 @@ class DataSource {
         this.productId = productId;
         this.sourceType = sourceType;
         this.transferredBytes = 0;
+        this.status = ChannelStates.OFFLINE;
     }
 
     toDict() {
@@ -22,7 +25,8 @@ class DataSource {
             hash: this.productId.hash,
             sourceType: this.sourceType,
             transferredBytes: this.transferredBytes,
-            monoHash: this.monoHash
+            monoHash: this.monoHash,
+            status: this.status
         }
     }
 }

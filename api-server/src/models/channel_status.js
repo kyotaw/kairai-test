@@ -4,7 +4,8 @@ const ChannelStates = {
     OFFLINE: 'offline',
     READY: 'ready',
     ACTIVE: 'active',
-    UNAVAILABLE: 'unavailable'
+    UNAVAILABLE: 'unavailable',
+    UNKNOWN: 'unknown'
 }
 
 class ChannelMemberStatus {

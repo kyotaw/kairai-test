@@ -1,40 +1,24 @@
 'use strict';
 
-const array = require('../helpers/array');
+const array = require('../helpers/array')
+,   dataSourceResponse = require('./data_source_response');
 
 function monosResponse(monos) {
     if (array.isArray(monos)) {
         let resArray = [];
         for (let m of monos) {
             let dict = m.toDict();
-            dict['dataSources'] = dataSourcesResponse(m.dataSources);
+            dict['dataSources'] = dataSourceResponse.dataSourcesResponse(m.dataSources);
             resArray.push(dict);
         }
         return resArray;
     } else {
         let dict = monos.toDict();
-        dict['dataSources'] = dataSourcesResponse(monos.dataSources);
+        dict['dataSources'] = dataSourceResponse.dataSourcesResponse(monos.dataSources);
         return dict;
-    }
-}
-
-function dataSourcesResponse(dataSources) {
-    if (array.isArray(dataSources)) {
-        let dataArray = [];
-        for (let ds of dataSources) {
-            let dict = ds.toDict();
-            delete dict['monoId'];
-            dataArray.push(dict);
-        }
-        return dataArray;
-    } else {
-        let data = dataSources.toDict();
-        delete data['monoId'];
-        return data;
     }
 }
 
 module.exports = {
     monosResponse: monosResponse,
-    dataSourcesResponse: dataSourcesResponse
 }

@@ -14,20 +14,8 @@ const monoService = {
         return monoRepository.create(mono);
     },
 
-    getMonos(params) {
-        return new Promise((resolve, reject) => {
-            try {
-                monoRepository.get(params).then(monos => {
-                    resolve(monos);
-                }, err => {
-                    reject(err);
-                }).catch(err => {
-                    reject(err);
-                });
-            } catch (err) {
-                reject(errors.internalError());
-            }
-       });
+    async getMonos(params) {
+        return await monoRepository.get(params);
     },
 
     async addDataSource(monoHash, params) {

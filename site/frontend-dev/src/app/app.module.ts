@@ -9,22 +9,33 @@ import {
     MatTooltipModule,
     MatGridListModule,
 } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout'; 
+import { HttpClientModule } from '@angular/common/http';
 
 import { ClipboardModule } from 'ngx-clipboard';
 
-import { SensorsComponent } from '../sensors/sensors.component';
+import { SensorsComponent } from './sensors/sensors.component';
+import { KairaiApiService } from './services/kairai-api.service';
+import { SensorService } from './services/sensor.service';
 
 @NgModule({
   declarations: [
-    SensorsComponent 
+    SensorsComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule, MatCheckboxModule, MatCardModule, MatDividerModule, MatTooltipModule, MatGridListModule,
-    ClipboardModule
+    FlexLayoutModule,
+    HttpClientModule,
+    ClipboardModule,
   ],
-  providers: [],
+  exports: [
+  ],
+  providers: [
+      SensorService,
+      KairaiApiService
+  ],
   bootstrap: [SensorsComponent]
 })
 export class AppModule { }

@@ -1,8 +1,9 @@
 'use strict';
 
-const MonoEntity = require('../models/entities/mono_entity').MonoEntity
-    , DataSourceEntity = require('../models/entities/data_source_entity').DataSourceEntity
-    , factory = require('../models/mono_factory')
+const MonoEntity = require('./entities/mono_entity').MonoEntity
+    , DataSourceEntity = require('./entities/data_source_entity').DataSourceEntity
+    , dataSourceRepository = require('./data_source_repository')
+    , factory = require('./mono_factory')
     , errors = require('../errors');
 
 const monoRepository = {
@@ -22,6 +23,7 @@ const monoRepository = {
         let monos = [];
         for (let e of entities) {
             const mono = await factory.createFromEntity(e);
+            mono.dataSources = await dataSourceRepository.getByMonoHash(mono.productId.hash);
             monos.push(mono);
         }
         return monos; 

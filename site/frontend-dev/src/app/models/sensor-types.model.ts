@@ -15,5 +15,5 @@ export enum SensorType {
     beacon = 'Beacon',
     nfc = 'NFC',
     barometer = 'Barometer',
-    unavailableSensor = 'UnavailableSensor'
+    unknownSensor = 'UnknownSensor'
 };
