@@ -14,7 +14,6 @@ const express = require('express')
 async function start() {
 	var app = express();
     app.use(cors);
-	app.set('port', env.APISERVER_PORT);
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
     app.use(routes());
