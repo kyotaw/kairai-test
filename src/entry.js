@@ -5,12 +5,13 @@ const express = require('express')
   , socketio = require('socket.io')
   , http = require('http')
   , env = require('./env')
+  , ip = require('./helpers/ip')
   , db = require('./infrastructures/db')
   , cors = require('./middlewares/cors.js')
   , routes = require('./routes')
   , routes_ws = require('./routes_ws');
 
-function start() {
+async function start() {
 	var app = express();
 	app.set('port', env.APISERVER_PORT);
 	app.use(bodyParser.json());
@@ -22,13 +23,11 @@ function start() {
     const io = socketio(server);
     routes_ws(io);
 
-    db.start().then(() => {
-	    server.listen(app.get('port'), () => {
-	        console.log('Kairai server is working at ' + env.APISERVER_URL);
-        });
-    }, (err) => {
-        console.error('Kairai server failed starting');
-        console.error(err);
+    await db.start();
+    const host = await ip();
+    await server.listen(env.APISERVER_PORT, () => {
+        const url = host + ':' + env.APISERVER_PORT;
+	    console.log('Kairai server is working at ' + url);
     });
 }
 
