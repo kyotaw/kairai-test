@@ -2,8 +2,13 @@
 
 
 (function(Env) {
-
-	const settings = require('../settings');
+    
+    let settings = {};
+    try {
+	    settings = require('../settings');
+    } catch (e) {
+        // ignore
+    }
 
     Env.SRC_ROOT_DIR = __dirname;
 
