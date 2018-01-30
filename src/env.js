@@ -20,6 +20,6 @@
 
     Env.APISERVER_HOST = process.env.APISERVER_HOST || settings.APISERVER_HOST || 'localhost';
     Env.APISERVER_PORT = process.env.PORT || settings.APISERVER_PORT || '6171';
-    Env.APISERVER_URL = 'http://' + Env.APISERVER_HOST + ':' + Env.APISERVER_PORT;
+    Env.APISERVER_URL = process.env.APISERVER_URL || settings.APISERVER_URL || Env.APISERVER_HOST + ':' + Env.APISERVER_PORT;
 
 }(exports));
