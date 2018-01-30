@@ -5,14 +5,14 @@ const Sequelize = require('sequelize')
     , array = require('../helpers/array')
     , loader = require('./sequelizedb_loader');
 
-const sequelize = new Sequelize(
-    env.DB_NAME,
-    env.DB_USER_NAME,
-    env.DB_PASSWORD,
-    {
-        host: env.DB_HOST, 
-        dialect: 'postgres',
-    });
+const ops = {
+    host: env.DB_HOST, 
+    dialect: 'postgres',
+}
+
+const sequelize = env.DATABASE_URL ?
+    new Sequelize(env.DATABASE_URL, { dialect: 'postgres', ssl: true }) :
+    new Sequelize(env.DB_NAME, env.DB_USER_NAME, env.DB_PASSWORD, { host: env.DB_HOST, dialect: 'postgres' });
 
 function inherit(schema, baseSchema) {
     schema.associations = _convertToArray(schema.associations);
