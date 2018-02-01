@@ -1,17 +1,12 @@
 'use strict';
 
-const socketio = require('socket.io-client')
-    , env = require('./env');
+const socketio = require('socket.io-client');
 
-const listener = socketio(env.APISERVER_URL + '/subscription', {
+const listener = socketio('https://kairai.herokuapp.com/subscription', {
     query: {
         path: '/api/data_stream',
-        dataSourceHash: "0638c30247c6c104661dc7f1b78fb0dcc5eb69f0cae228c57f7e7cd09eda65d5"
+        dataSourceHash: "ea064893939e3472f7d094269cc75655ee8110b6c2a4ea97cfe3617eb9caf0e5"
     }
-});
-
-listener.on('connect', () => {
-   console.log('Listener CONECTED...')
 });
 
 listener.on('data', (data) => {

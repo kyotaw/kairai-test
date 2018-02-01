@@ -12,6 +12,8 @@ class DataSource {
         this.sourceType = sourceType;
         this.transferredBytes = 0;
         this.status = ChannelStates.OFFLINE;
+        this.spec = {};
+        this.specId = null;
     }
 
     toDict() {
@@ -26,7 +28,9 @@ class DataSource {
             sourceType: this.sourceType,
             transferredBytes: this.transferredBytes,
             monoHash: this.monoHash,
-            status: this.status
+            status: this.status,
+            specId: this.specId,
+            spec: this.spec
         }
     }
 }

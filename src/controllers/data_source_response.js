@@ -8,12 +8,14 @@ function dataSourcesResponse(dataSources) {
         for (let ds of dataSources) {
             let dict = ds.toDict();
             delete dict['monoId'];
+            delete dict['specId'];
             dataArray.push(dict);
         }
         return dataArray;
     } else {
         let data = dataSources.toDict();
         delete data['monoId'];
+        delete data['specId'];
         return data;
     }
 }
