@@ -51,6 +51,10 @@ const channelService = {
             await channel.start();
         }
         return channel;
+    },
+
+    async getChannel(channelId) {
+        return await channelRepository.get(channelId);
     }
 
 }

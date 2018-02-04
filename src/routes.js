@@ -3,6 +3,7 @@
 const Router = require('express').Router
     , monoControlelr = require('./controllers/mono_controller')
     , dataSourceController = require('./controllers/data_source_controller')
+    , channelController = require('./controllers/channel_controller')
     , monoFilter = require('./middlewares/mono_filter')
     , errors = require('./errors')
     , shortcut = require('./controllers/response_shortcuts');
@@ -24,6 +25,10 @@ function routes() {
     // datasources
     const dataSources = root + 'data_sources/';
     router.get(dataSources, dataSourceController.get);
+
+    // channels
+    const channels = root + 'channels/';
+    router.get(channels + ':channelId', channelController.getState);
 
     // error
     router.use((err, req, res, next) => {

@@ -16,6 +16,10 @@ class ChannelListener extends ChannelMember {
         });
     }
 
+    get id() {
+        return 'unknown';
+    }
+
     disconnect() {
         this.conn.disconnect();
         this.status.state = ChannelStates.OFFLINE;

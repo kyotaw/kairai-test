@@ -2,11 +2,15 @@
 
 const DataSourceEntity = require('./entities/data_source_entity').DataSourceEntity
     , AccelerometerSpecEntity = require('./entities/accelerometer_spec_entity').AccelerometerSpecEntity
+    , CameraSpecEntity = require('./entities/camera_spec_entity').CameraSpecEntity
+    , BarometerSpecEntity = require('./entities/barometer_spec_entity').BarometerSpecEntity
     , dataSourceFactory = require('./data_source_factory')
     , channelRepository = require('./channel_repository');
 
 const specs = {
-    accelerometer: AccelerometerSpecEntity
+    accelerometer: AccelerometerSpecEntity,
+    camera: CameraSpecEntity,
+    barometer: BarometerSpecEntity,
 }
 
 const dataSourceRepository = {
@@ -14,7 +18,7 @@ const dataSourceRepository = {
     async create(dataSource) {
         let specEntity = null;
         if (specs[dataSource.sourceType]) {
-            specEntity = await specs[dataSource.sourceType].create(dataSource.spec);
+            specEntity = await specs[dataSource.sourceType].create(dataSource.spec.toDict());
             dataSource.specId = specEntity.id;
         }
         let entity = await DataSourceEntity.create(dataSource.toDict());

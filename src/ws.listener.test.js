@@ -2,10 +2,10 @@
 
 const socketio = require('socket.io-client');
 
-const listener = socketio('https://kairai.herokuapp.com/subscription', {
+const listener = socketio('http://localhost:6171/subscription', {
     query: {
         path: '/api/data_stream',
-        dataSourceHash: "ea064893939e3472f7d094269cc75655ee8110b6c2a4ea97cfe3617eb9caf0e5"
+        dataSourceHash: "a9da57797d39979441a64a27542c2255a3586c0b34d4ef5b1d294d579970d901"
     }
 });
 

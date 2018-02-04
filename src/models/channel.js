@@ -58,6 +58,14 @@ class Channel {
             this.stop();
         }
     }
+
+    toDict() {
+        return {
+            'state': this.status.state,
+            'host': this.host.id,
+            'listners': this.listeners.map(l => l.id),
+        }
+    }
 }
 
 module.exports.Channel = Channel;
