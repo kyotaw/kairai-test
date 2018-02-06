@@ -9,7 +9,7 @@ class Channel {
         this.listeners = [];
     }
 
-    get channelId() { return this.host.channelId; }
+    get channelId() { return this.host.id; }
     get status() { return this.host.status; }
 
     async start() {
@@ -24,15 +24,13 @@ class Channel {
         }
     }
 
-    addListener(listenerConn) {
-        const listener = new ChannelListener(this.dataSource, listenerConn);
-        listener.channel = this;
+    addListener(listener) {
         this.listeners.push(listener);
     }
 
     broadcast(data) {
         for (let listener of this.listeners) {
-            listener.recieve(data);
+            listener.recieve(data, this.host);
         }
     }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const GeoLocation = require('../GeoLocation')
+const GeoLocation = require('./geo_location').GeoLocation
     , dataSourceRepository = require('./data_source_repository');
 
 class Geo {

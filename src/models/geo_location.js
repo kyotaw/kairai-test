@@ -35,7 +35,7 @@ class GeoLocation {
         return geolib.isPointInCircle(point, this, radius);
     }
 
-    toDict {
+    toDict() {
         return {
             latitude: this.latitude,
             longitude: this.longitude

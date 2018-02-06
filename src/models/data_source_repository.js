@@ -46,7 +46,7 @@ const dataSourceRepository = {
     },
 
     async getByGeoBounds(bounds, dataSourceType) {
-        const entities = await DataSourceEntity.findAll(
+        const entities = await DataSourceEntity.findAll({
             where: {
                 [Op.and]: [
                     {
@@ -67,7 +67,8 @@ const dataSourceRepository = {
                     }
                 ],
                 dataSourceType: dataSourceType
-            });
+            }
+        });
         return await this._createFromEntity(entities);
     },
 

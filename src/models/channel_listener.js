@@ -5,13 +5,14 @@ const ChannelMember = require('./channel_member').ChannelMember
 
 class ChannelListener extends ChannelMember {
 
-    constructor(channelId, conn) {
-        super(channelId);
+    constructor(conn, source) {
+        super();
         this.conn = conn;
+        this.source = source
         
         this.conn.on('disconnect', reason => {
-            if (this.channel) {
-                this.channel.onListenerDisconnect(this);
+            if (this.source) {
+                this.source.onListenerDisconnect(this);
             }
         });
     }
@@ -25,7 +26,7 @@ class ChannelListener extends ChannelMember {
         this.status.state = ChannelStates.OFFLINE;
     }
 
-    recieve(data) {
+    recieve(data, host) {
         this.conn.emit('data', data);
     }
 }

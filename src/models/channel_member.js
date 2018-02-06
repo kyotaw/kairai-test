@@ -5,16 +5,18 @@ const ChannelMemberStatus = require('./channel_status.js').ChannelMemberStatus
 
 class ChannelMember {
 
-    constructor(channelId) {
-        this.channelId = channelId;
+    constructor() {
         this.status = new ChannelMemberStatus();
-        this._channel = null;
+        this._source = null;
     }
 
-    get channel() { return this._channel; }
-    set channel(channel) {
-        this.status.state = channel ? ChannelStates.READY : ChannelStates.OFFLINE;
-        this._channel = channel;
+    get source() {
+        return this._source;
+    }
+
+    set source(channel) {
+        this.status.state = source ? ChannelStates.READY : ChannelStates.OFFLINE;
+        this._source = source;
     }
 }
 

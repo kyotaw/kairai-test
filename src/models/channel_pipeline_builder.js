@@ -1,6 +1,8 @@
 'use strict';
 
-const array = require('../helpers/array');
+const array = require('../helpers/array')
+    , ChannelListener = require('./channel_listener').ChannelListener
+    , errors = require('../errors');
 
 const 
 
@@ -20,7 +22,7 @@ class ChannelPipelineBuilder {
         this.sources = this.sources.concat(sourceChannels);
     }
 
-    addMethids(method) {
+    addMethod(method) {
         this.methods.push(method);
     }
 
@@ -29,6 +31,20 @@ class ChannelPipelineBuilder {
     }
 
     build() {
-        
+        if (this.sources.length === 0 || !this.listener) {
+            throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
+        }
+
+        if (this.methods.length === 0) {
+            // direct api
+            if (this.sources.length !== 1) {
+                throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
+            }
+            let listener = new ChannelListener(this.listener, this.sources[0]);
+            listener.source = this.sources[0];
+            this.sources[0].addListener(listener);
+        } else {
+            // aggregation api
+        }
     }
 }
