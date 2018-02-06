@@ -19,9 +19,20 @@ const channelController = {
         });
     },
 
-    addListener(conn) {
-        channelService.addListener(conn).then((channel) => {
+    addDirectListener(conn) {
+        channelService.addSubscriptionListener(conn).then((channel) => {
             console.log('Add listener of: ' + channel.channelId);
+            if (conn.ack) {
+                conn.ack();
+           }
+        }).catch(err => {
+            conn.disconnect();
+       });
+    },
+
+    addAggregationListener(conn) {
+        channelService.addAggregationListener(conn).then((channels) => {
+            console.log('Add listener of: ' + channels.map(c => c.channelId));
             if (conn.ack) {
                 conn.ack();
            }

@@ -2,7 +2,6 @@
 
 const express = require('express')
   , bodyParser = require('body-parser')
-  , socketio = require('socket.io')
   , http = require('http')
   , env = require('./env')
   , ip = require('./helpers/ip')
@@ -17,10 +16,9 @@ async function start() {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
     app.use(routes());
-
+    
     const server = http.createServer(app);
-    const io = socketio(server);
-    routes_ws(io);
+    routes_ws(server);
 
     await db.start();
     const host = await ip();

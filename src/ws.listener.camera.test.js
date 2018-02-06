@@ -2,7 +2,7 @@
 
 const socketio = require('socket.io-client');
 
-const listener = socketio('http://localhost:6171/subscription', {
+const listener = socketio('http://localhost:6171/direct', {
     query: {
         path: '/api/data_stream',
         dataSourceHash: "5622088d38349087adcfa0f20bcb79601cb3c8adc6950af72c742d4d2f706197"

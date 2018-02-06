@@ -5,7 +5,8 @@ const DataSourceEntity = require('./entities/data_source_entity').DataSourceEnti
     , CameraSpecEntity = require('./entities/camera_spec_entity').CameraSpecEntity
     , BarometerSpecEntity = require('./entities/barometer_spec_entity').BarometerSpecEntity
     , dataSourceFactory = require('./data_source_factory')
-    , channelRepository = require('./channel_repository');
+    , channelRepository = require('./channel_repository')
+    , Op = require('../infrastructures/sequelizedb').Sequelize.Op;
 
 const specs = {
     accelerometer: AccelerometerSpecEntity,
@@ -21,7 +22,10 @@ const dataSourceRepository = {
             specEntity = await specs[dataSource.sourceType].create(dataSource.spec.toDict());
             dataSource.specId = specEntity.id;
         }
-        let entity = await DataSourceEntity.create(dataSource.toDict());
+        let entity = DataSourceEntity.build(dataSource.toDict());
+        entity.latitude = dataSource.location.latitude;
+        entity.longitude = dataSource.location.longitude;
+        await entity.save();
         dataSource.id = entity.id;
         if (specEntity) {
             specEntity.setData_source(entity);
@@ -38,6 +42,32 @@ const dataSourceRepository = {
 
     async getByMonoHash(monoHash) {
         const entities = await DataSourceEntity.findAll({where: {monoHash: monoHash}});
+        return await this._createFromEntity(entities);
+    },
+
+    async getByGeoBounds(bounds, dataSourceType) {
+        const entities = await DataSourceEntity.findAll(
+            where: {
+                [Op.and]: [
+                    {
+                        latitude: {
+                            [Op.and]: {
+                                [Op.gte]: bounds.leftBottom.latitude,
+                                [Op.lte]: bounds.rightTop.latitude,
+                            }
+                        }    
+                    },
+                    {
+                        longitude: {
+                            [Op.and]: {
+                                [Op.gte]: bounds.leftBottom.longitude,
+                                [Op.lte]: bounds.rightTop.longitude
+                            }
+                        }
+                    }
+                ],
+                dataSourceType: dataSourceType
+            });
         return await this._createFromEntity(entities);
     },
 

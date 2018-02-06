@@ -1,19 +1,22 @@
 'use strict';
 
-const ChannelStates = require('../models/channel_status').ChannelStates;
+const ChannelStates = require('./channel_status').ChannelStates
+    , GeoLocation = require('./geo_location').GeoLocation;
 
 class DataSource {
 
-    constructor(name, productId, sourceType) {
-        this.id = null;
-        this.monoId = null;
-        this.name = name;
-        this.productId = productId;
-        this.sourceType = sourceType;
-        this.transferredBytes = 0;
-        this.status = ChannelStates.OFFLINE;
-        this.spec = {};
-        this.specId = null;
+    constructor(params) {
+        params = params || {}
+        this.id = params.id || null;
+        this.monoId = params.monoId || null;
+        this.name = params.name || '';
+        this.productId = params.productId || null;
+        this.sourceType = params.sourceType || null;
+        this.transferredBytes = params.transferredBytes || 0;
+        this.status = params.status || ChannelStates.OFFLINE;
+        this.spec = params.spec || {};
+        this.specId = params.specId || null;
+        this.location = params.location || new GeoLocation(null, null);
     }
 
     toDict() {
@@ -30,7 +33,8 @@ class DataSource {
             monoHash: this.monoHash,
             status: this.status,
             specId: this.specId,
-            spec: this.spec
+            spec: this.spec,
+            location: this.location.toDict()
         }
     }
 }

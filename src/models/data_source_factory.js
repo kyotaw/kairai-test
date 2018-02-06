@@ -4,7 +4,8 @@ const DataSource = require('./data_source').DataSource
     , ProductId = require('./product_id').ProductId
     , AccelerometerSpec = require('./accelerometer_spec').AccelerometerSpec
     , CameraSpec = require('./camera_spec').CameraSpec
-    , BarometerSpec = require('./barometer_spec').BarometerSpec;
+    , BarometerSpec = require('./barometer_spec').BarometerSpec
+    , GeoLocation = require('./geo_location').GeoLocation;
 
 const specs = {
     accelerometer: AccelerometerSpec,
@@ -18,8 +19,9 @@ const dataSourceFactory = {
         if (!params) {
             return null;
         }
-        const productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
-        let dataSource = new DataSource(params.name, productId, params.sourceType);
+        params.productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
+        params.location = new GeoLocation(params.latitude, params.longitude);
+        let dataSource = new DataSource(params);
         params.spec = params.spec || {}
         dataSource.spec = new specs[params.sourceType](params.spec);
         return dataSource;

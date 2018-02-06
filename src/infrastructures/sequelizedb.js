@@ -179,7 +179,7 @@ function start() {
 module.exports = {
     conn: sequelize,
     Sequelize: Sequelize,
-    inherit:  inherit,
+    inherit: inherit,
     define: define,
     makeShareable: makeShareable,
     start: start

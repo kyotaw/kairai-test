@@ -14,6 +14,8 @@ const schema = {
         transferredBytes: { type: db.Sequelize.BIGINT, allowNull: false, defaultValue: 0 }, 
         monoHash: { type: db.Sequelize.STRING, allowNull: false }, 
         specId: { type: db.Sequelize.INTEGER, allowNull: false },
+        latitude: { type: db.Sequelize.FLOAT, allowNull: false },
+        longitude: { type: db.Sequelize.FLOAT, allowNull: false },
     }
 }
 
