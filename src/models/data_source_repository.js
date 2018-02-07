@@ -33,6 +33,10 @@ const dataSourceRepository = {
         return dataSource;
     },
 
+    async update(dataSource) {
+        await dataSource.save();
+    },
+
     async getByHash(hash) {
         const entity = await DataSourceEntity.find({where: {hash: hash}});
         await this._populateSpec(entity);
