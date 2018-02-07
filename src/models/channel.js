@@ -9,7 +9,7 @@ class Channel {
         this.listeners = [];
     }
 
-    get channelId() { return this.host.id; }
+    get id() { return this.host.id; }
     get status() { return this.host.status; }
 
     async start() {

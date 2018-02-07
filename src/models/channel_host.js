@@ -9,7 +9,7 @@ class ChannelHost extends ChannelMember {
         super(dataSource.productId.hash);
         this.dataSource = dataSource;
         this.conn = conn;
-        this._channel = null;
+        this.channel = null;
         
         this.conn.on('disconnect', reason => {
             if (this.channel) {
@@ -22,14 +22,6 @@ class ChannelHost extends ChannelMember {
 
     get id() {
         return this.dataSource.productId.hash;
-    }
-
-    get channel() {
-        return this._channel;
-    }
-
-    set channel(channel) {
-        this._channel = channel;
     }
 
     async start() {

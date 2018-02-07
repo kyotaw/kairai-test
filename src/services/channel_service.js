@@ -1,8 +1,7 @@
 'use strict';
 
-const ChannelHost = require('../models/channel_host').ChannelHost
-    , ChannelListener = require('../models/channel_listener').ChannelListener
-    , Channel = require('../models/channel').Channel
+const Channel = require('../models/channel').Channel
+    , ChannelPipelineBuilder = require('../models/channel_host').ChannelHost
     , ChannelStates = require('../models/channel_status').ChannelStates
     , channelRepository = require('../models/channel_repository')
     , dataSourceRepository = require('../models/data_source_repository')
@@ -47,7 +46,11 @@ const channelService = {
             throw new errors.KairaiError(errors.ErrorTypes.CHANNEL_NOT_OPEN);
         }
 
-        channel.addListener(conn);
+        let builder = new ChannelPipelineBuilder();
+        builder.addSources(channel);
+        builder.setListener(conn);
+        channel = bulder.build();
+
         if (channel.status.isReady) {
             await channel.start();
         }

@@ -5,11 +5,11 @@ const channelRepository = {
     channels: {},
 
     async create(channel) {
-        this.channels[channel.channelId] = channel;
+        this.channels[channel.id] = channel;
     },
 
     async delete(channel) {
-        delete this.channels[channel.channelId];
+        delete this.channels[channel.id];
     },
 
     async get(channelId) {
