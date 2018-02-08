@@ -4,6 +4,7 @@ const DataSourceEntity = require('./entities/data_source_entity').DataSourceEnti
     , AccelerometerSpecEntity = require('./entities/accelerometer_spec_entity').AccelerometerSpecEntity
     , CameraSpecEntity = require('./entities/camera_spec_entity').CameraSpecEntity
     , BarometerSpecEntity = require('./entities/barometer_spec_entity').BarometerSpecEntity
+    , PositioningSystemSpecEntity = require('./entities/positioning_system_entity').PositioningSystemSpecEntity
     , dataSourceFactory = require('./data_source_factory')
     , channelRepository = require('./channel_repository')
     , Op = require('../infrastructures/sequelizedb').Sequelize.Op;
@@ -12,6 +13,7 @@ const specs = {
     accelerometer: AccelerometerSpecEntity,
     camera: CameraSpecEntity,
     barometer: BarometerSpecEntity,
+    positioningSystem: PositioningSystemSpecEntity,
 }
 
 const dataSourceRepository = {

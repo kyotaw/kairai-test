@@ -4,8 +4,8 @@ class CameraSpec {
 
     constructor(params) {
         params = params || {};
-        this.totalPixels = params.totalPixels || 0;
-        this.effectivePixels = params.effectivePixels || 0;
+        this.totalPixels = params.totalPixels || null;
+        this.effectivePixels = params.effectivePixels || null;
         this.colorSpaces = params.colorSpaces || [];
     }
 

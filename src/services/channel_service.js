@@ -67,6 +67,11 @@ const channelService = {
         if (dataSource.lenght === 0) {
             throw new errors.KairaiError(errors.ErrorTypes.DATA_SOURCE_NOT_FOUND);
         }
+        let channels = await channelRepository.get(dataSources.map(d => { d.productId.hash }));
+        channels = channels.filter
+        if (channels.length === 0) {
+            throw new errors.KairaiError(errors.ErrorTypes.CHANNEL_NOT_OPEN);
+        }
     },
 
     async getChannel(channelId) {

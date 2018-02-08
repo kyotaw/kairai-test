@@ -5,12 +5,14 @@ const DataSource = require('./data_source').DataSource
     , AccelerometerSpec = require('./accelerometer_spec').AccelerometerSpec
     , CameraSpec = require('./camera_spec').CameraSpec
     , BarometerSpec = require('./barometer_spec').BarometerSpec
+    , PositioningSystemSpec= require('./positioning_system_spec').PositioningSystemSpec
     , GeoLocation = require('./geo_location').GeoLocation;
 
 const specs = {
     accelerometer: AccelerometerSpec,
     camera: CameraSpec,
     barometer: BarometerSpec,
+    positioningSystem: PositioningSystemSpec,
 }
 
 const dataSourceFactory = {

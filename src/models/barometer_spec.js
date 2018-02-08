@@ -30,11 +30,11 @@ class BarometerSpec {
 
     toDict() {
         return {
-            linearity: this.linearity || 0,
-            hysteresis: this.hysteresis || 0,
-            repeatability: this.repeatability || 0,
-            calibrationUncertainty: this.calibrationUncertainty || 0,
-            accuracy: this.accuracy || 0,
+            linearity: this.linearity,
+            hysteresis: this.hysteresis,
+            repeatability: this.repeatability,
+            calibrationUncertainty: this.calibrationUncertainty,
+            accuracy: this.accuracy,
         }
     }
 }
