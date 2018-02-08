@@ -24,6 +24,17 @@ class ChannelHost extends ChannelMember {
         return this.dataSource.productId.hash;
     }
 
+    get channel() {
+        return this._channel;
+    }
+
+    set channel(channel) {
+        if (channel) {
+            this._channel = channel;
+            this.status.state = ChannelStates.READY;
+        } 
+    }
+
     async start() {
         this.conn.emit('start');
         this.status.state = ChannelStates.ACTIVE;

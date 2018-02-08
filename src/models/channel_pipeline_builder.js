@@ -39,14 +39,6 @@ class ChannelPipelineBuilder {
         }
 
         if (this.isAggregation) {
-            // direct api
-            if (this.sources.length !== 1) {
-                throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
-            }
-            let listener = new ChannelListener(this.listener, this.sources[0]);
-            listener.source = this.sources[0];
-            this.sources[0].addListener(listener);
-        } else {
             // aggregation api
             const listener = new ChannelListener(this.listener);
             const aggregation = ChannelAggregation(this.sources, listener);
@@ -54,9 +46,17 @@ class ChannelPipelineBuilder {
             for (let source of this.sources) {
                 source.addListener(aggregation);
             }
+            return this.sources;
+        } else {
+            // direct api
+            if (this.sources.length !== 1) {
+                throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
+            }
+            let listener = new ChannelListener(this.listener);
+            listener.source = this.sources[0];
+            this.sources[0].addListener(listener);
+            return this.sources[0];
         }
-
-        return this.sources;
     }
 }
 

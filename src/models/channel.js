@@ -5,8 +5,8 @@ const ChannelListener = require('./channel_listener').ChannelListener;
 class Channel {
     constructor(host) {
         this.host = host;
-        host.channel = this;
         this.listeners = [];
+        host.channel = this;
     }
 
     get id() { return this.host.id; }

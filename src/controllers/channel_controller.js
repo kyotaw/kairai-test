@@ -10,7 +10,7 @@ const channelController = {
 
     openChannel(conn) {
         channelService.openChannel(conn).then((channel) => {
-            console.log('Open channel: ' + channel.channelId);
+            console.log('Open channel: ' + channel.id);
             if (conn.ack) {
                 conn.ack();
             }
@@ -20,8 +20,8 @@ const channelController = {
     },
 
     addDirectListener(conn) {
-        channelService.addSubscriptionListener(conn).then((channel) => {
-            console.log('Add listener of: ' + channel.channelId);
+        channelService.addDirectListener(conn).then((channel) => {
+            console.log('Add listener of: ' + channel.id);
             if (conn.ack) {
                 conn.ack();
            }
@@ -32,7 +32,7 @@ const channelController = {
 
     addAggregationListener(conn) {
         channelService.addAggregationListener(conn).then((channels) => {
-            console.log('Add listener of: ' + channels.map(c => c.channelId));
+            console.log('Add listener of: ' + channels.map(c => c.id));
             if (conn.ack) {
                 conn.ack();
            }

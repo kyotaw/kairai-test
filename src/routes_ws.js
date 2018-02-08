@@ -5,12 +5,12 @@ const SocketIoServer = require('socket.io')
     , ChannelConnection = require('./models/channel_connection').ChannelConnection;
 
 function routes_ws(httpServer) {
-    const io = new SocketIoServer(httpServer, {
-        path: '/api/data_stream',
+    let io = SocketIoServer(httpServer, {
         transports: ['websocket', 'polling']
     });
+    io.path('/api/data_stream');
 
-    const sourcesIo= io.of('/sources');
+    const sourcesIo = io.of('/sources');
     sourcesIo.on('connection', (socket, ack) => {
         const conn = new ChannelConnection(sourcesIo, socket, ack);
         channelController.openChannel(conn);

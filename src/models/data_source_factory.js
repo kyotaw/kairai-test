@@ -1,6 +1,7 @@
 'use strict';
 
 const DataSource = require('./data_source').DataSource
+    , DataSourceEntity = require('./entities/data_source_entity').DataSourceEntity
     , ProductId = require('./product_id').ProductId
     , AccelerometerSpec = require('./accelerometer_spec').AccelerometerSpec
     , CameraSpec = require('./camera_spec').CameraSpec
@@ -22,7 +23,9 @@ const dataSourceFactory = {
             return null;
         }
         params.productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
-        params.location = new GeoLocation(params.latitude, params.longitude);
+        if (params.latitude && params.longitude) {
+            params.location = new GeoLocation(params.latitude, params.longitude);
+        }
         let dataSource = new DataSource(params);
         params.spec = params.spec || {}
         dataSource.spec = new specs[params.sourceType](params.spec);
@@ -33,7 +36,13 @@ const dataSourceFactory = {
         if (!entity) {
             return null;
         }
-        let dataSource = this.createFromDict(entity);
+        let params = entity.dataValues;
+        if (params.latitude === DataSourceEntity.INVALID_LATITUDE ||
+            params.longitude === DataSourceEntity.INVALID_LONGITUDE) {
+            params.latitude = null;
+            params.longitude = null;
+        }
+        let dataSource = this.createFromDict(params);
         dataSource.id = entity.id;
         dataSource.monoId = entity.monoId;
         if (entity.spec) {

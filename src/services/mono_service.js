@@ -23,6 +23,7 @@ const monoService = {
         if (monos.length === 0) {
             throw new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND); 
         }
+        params['monoHash'] = monoHash;
         const dataSource = dataSourceFactory.createFromDict(params);
         monos[0].addDataSource(dataSource);
         await dataSourceRepository.create(dataSource);

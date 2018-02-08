@@ -15,8 +15,9 @@ class DataSource {
         this.transferredBytes = params.transferredBytes || 0;
         this.status = params.status || ChannelStates.OFFLINE;
         this.spec = params.spec || {};
+        this.monoHash = params.monoHash || null;
         this.specId = params.specId || null;
-        this.location = params.location || new GeoLocation(null, null);
+        this.location = params.location || null;
     }
 
     toDict() {
@@ -34,7 +35,7 @@ class DataSource {
             status: this.status,
             specId: this.specId,
             spec: this.spec,
-            location: this.location.toDict()
+            location: this.location ? this.location.toDict() : null,
         }
     }
 }

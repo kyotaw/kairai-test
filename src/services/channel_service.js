@@ -1,7 +1,8 @@
 'use strict';
 
 const Channel = require('../models/channel').Channel
-    , ChannelPipelineBuilder = require('../models/channel_host').ChannelHost
+    , ChannelHost = require('../models/channel_host').ChannelHost
+    , ChannelPipelineBuilder = require('../models/channel_pipeline_builder').ChannelPipelineBuilder
     , ChannelStates = require('../models/channel_status').ChannelStates
     , channelRepository = require('../models/channel_repository')
     , GeoLocation = require('../models/geo_location').GeoLocation
@@ -16,8 +17,8 @@ const channelService = {
         if (!dataSource) {
             throw new errors.KairaiError(errors.ErrorTypes.DATA_SOURCE_NOT_FOUND);
         }
-        if (conn.query.location) {
-            dataSource.location = new GeoLocation(conn.query.location.latitude, conn.query.location.longitude);
+        if (conn.query.latitude && conn.query.longitude) {
+            dataSource.location = new GeoLocation(conn.query.latitude, conn.query.longitude);
             await dataSourceRepository.update(dataSource);
         }
 
@@ -54,10 +55,10 @@ const channelService = {
         let builder = new ChannelPipelineBuilder();
         builder.addSources(channel);
         builder.setListener(conn);
-        channel = bulder.build();
+        channel = builder.build();
 
         if (channel.status.isReady) {
-            await channel.start();
+            channel.start();
         }
         return channel;
     },
@@ -67,11 +68,24 @@ const channelService = {
         if (dataSource.lenght === 0) {
             throw new errors.KairaiError(errors.ErrorTypes.DATA_SOURCE_NOT_FOUND);
         }
-        let channels = await channelRepository.get(dataSources.map(d => { d.productId.hash }));
-        channels = channels.filter
+        let channels = await channelRepository
+            .get(dataSources.map(d => { d.productId.hash }))
+            .filter(c => { !c.status.isOffline });
         if (channels.length === 0) {
             throw new errors.KairaiError(errors.ErrorTypes.CHANNEL_NOT_OPEN);
         }
+
+        let builder = new ChannelPipelineBuilder();
+        builder.addSources(channels);
+        builder.setAggregation(true);
+        builder.setListener(conn);
+        channels = builder.build();
+        for (let channel of channels) {
+            if (channel.status.isReady) {
+                channel.start();
+            }
+        }
+        return channels;
     },
 
     async getChannel(channelId) {

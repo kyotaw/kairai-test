@@ -23,7 +23,7 @@ class ChannelAggregation {
         this.valueMap.set(source.id, data);
         if (this.valueMap.size === this.sources.length) {
             values = [];
-            for (let (key, data) of this.valueMap) {
+            for (let [key, data] of this.valueMap) {
                 values.push(data.plainValue);
             }
             this.listener.recieve(values, this);

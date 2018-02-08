@@ -8,16 +8,8 @@ const INVALID_LNG = 91;
 class GeoLocation {
 
     constructor(latitude, longitude) {
-        this._latitude = (latitude === INVALID_LAT) ? null : latitude;
-        this._longitude = (longitude === INVALID_LNG) ? null : longitude;
-    }
-
-    get latitude() {
-        return this._latitude ? this._latitude : INVALID_LAT;
-    }
-
-    get longitude() {
-        return this._longitude ? this._longitude : INVALID_LNG; 
+        this.latitude = (latitude === INVALID_LAT) ? null : latitude;
+        this.longitude = (longitude === INVALID_LNG) ? null : longitude;
     }
 
     calcDestinationLocation(distance, bearing) {

@@ -7,6 +7,7 @@ const DataSourceEntity = require('./entities/data_source_entity').DataSourceEnti
     , PositioningSystemSpecEntity = require('./entities/positioning_system_entity').PositioningSystemSpecEntity
     , dataSourceFactory = require('./data_source_factory')
     , channelRepository = require('./channel_repository')
+    , removeNull = require('../helpers/object').removeNull
     , Op = require('../infrastructures/sequelizedb').Sequelize.Op;
 
 const specs = {
@@ -21,12 +22,10 @@ const dataSourceRepository = {
     async create(dataSource) {
         let specEntity = null;
         if (specs[dataSource.sourceType]) {
-            specEntity = await specs[dataSource.sourceType].create(dataSource.spec.toDict());
+            specEntity = await specs[dataSource.sourceType].create(removeNull(dataSource.spec.toDict()));
             dataSource.specId = specEntity.id;
         }
-        let entity = DataSourceEntity.build(dataSource.toDict());
-        entity.latitude = dataSource.location.latitude;
-        entity.longitude = dataSource.location.longitude;
+        let entity = this._buildDataSourceEntity(dataSource);
         await entity.save();
         dataSource.id = entity.id;
         if (specEntity) {
@@ -36,7 +35,12 @@ const dataSourceRepository = {
     },
 
     async update(dataSource) {
-        await dataSource.save();
+        const entity = await DataSourceEntity.find({where: {hash: dataSource.productId.hash}});
+        await entity.update(removeNull(dataSource.toDict()));
+        //const specEntity = specs[dataSource.sourceType].build(removeNull(dataSource.spec.toDict()));
+        //await specEntity.save();
+        //let entity = this._buildDataSourceEntity(dataSource);
+        //await entity.update(entity.dataValues);
     },
 
     async getByHash(hash) {
@@ -110,6 +114,15 @@ const dataSourceRepository = {
         }
         return entity;
     },
+
+    _buildDataSourceEntity(dataSource) {
+        let entity = DataSourceEntity.build(dataSource.toDict());
+        if (dataSource.location) {
+            entity.latitude = dataSource.location.latitude;
+            entity.longitude = dataSource.location.longitude;
+        }
+        return entity; 
+    }
 }
 
 module.exports = dataSourceRepository;

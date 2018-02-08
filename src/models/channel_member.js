@@ -14,7 +14,7 @@ class ChannelMember {
         return this._source;
     }
 
-    set source(channel) {
+    set source(source) {
         this.status.state = source ? ChannelStates.READY : ChannelStates.OFFLINE;
         this._source = source;
     }
