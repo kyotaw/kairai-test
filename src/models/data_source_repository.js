@@ -36,15 +36,19 @@ const dataSourceRepository = {
 
     async update(dataSource) {
         const entity = await DataSourceEntity.find({where: {hash: dataSource.productId.hash}});
-        await entity.update(removeNull(dataSource.toDict()));
-        //const specEntity = specs[dataSource.sourceType].build(removeNull(dataSource.spec.toDict()));
-        //await specEntity.save();
-        //let entity = this._buildDataSourceEntity(dataSource);
-        //await entity.update(entity.dataValues);
+        if (!entity) {
+            return;
+        }
+        let params = this._buildDataSourceEntity(dataSource).dataValues;
+        delete params['createdAt'];
+        await entity.update(params);
     },
 
     async getByHash(hash) {
         const entity = await DataSourceEntity.find({where: {hash: hash}});
+        if (!entity) {
+            return null;
+        }
         await this._populateSpec(entity);
         let dataSource = await dataSourceFactory.createFromEntity(entity);
         return await this._fetch_state(dataSource);
@@ -55,7 +59,7 @@ const dataSourceRepository = {
         return await this._createFromEntity(entities);
     },
 
-    async getByGeoBounds(bounds, dataSourceType) {
+    async getByGeoBounds(bounds, sourceType) {
         const entities = await DataSourceEntity.findAll({
             where: {
                 [Op.and]: [
@@ -76,7 +80,7 @@ const dataSourceRepository = {
                         }
                     }
                 ],
-                dataSourceType: dataSourceType
+                sourceType: sourceType
             }
         });
         return await this._createFromEntity(entities);

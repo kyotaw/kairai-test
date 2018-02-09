@@ -41,8 +41,8 @@ class ChannelPipelineBuilder {
         if (this.isAggregation) {
             // aggregation api
             const listener = new ChannelListener(this.listener);
-            const aggregation = ChannelAggregation(this.sources, listener);
-            listener.source = aggregation;
+            const aggregation = new ChannelAggregation(this.sources, listener);
+            listener.setSource(aggregation);
             for (let source of this.sources) {
                 source.addListener(aggregation);
             }
@@ -53,7 +53,7 @@ class ChannelPipelineBuilder {
                 throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
             }
             let listener = new ChannelListener(this.listener);
-            listener.source = this.sources[0];
+            listener.setSource(this.sources[0]);
             this.sources[0].addListener(listener);
             return this.sources[0];
         }

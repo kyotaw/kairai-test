@@ -18,7 +18,7 @@ const channelRepository = {
         if (isArray(channelIds)) {
             let channels = [];
             for (let id of channelIds) {
-                const channel = await this_get(id);
+                const channel = await this._get(id);
                 if (channel) {
                     channels.push(channel);
                 }

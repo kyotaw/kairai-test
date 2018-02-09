@@ -5,7 +5,7 @@ const socketio = require('socket.io-client');
 const socket = socketio('http://localhost:6171/sources', {
     query: {
         path: '/api/data_stream',
-        dataSourceHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        dataSourceHash: "3e744b9dc39389baf0c5a0660589b8402f3dbb49b89b3e75f2c9355852a3c677",
         latitude: 35,
         longitude: 170
     }

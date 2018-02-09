@@ -6,7 +6,6 @@ class Channel {
     constructor(host) {
         this.host = host;
         this.listeners = [];
-        host.channel = this;
     }
 
     get id() { return this.host.id; }
@@ -41,7 +40,7 @@ class Channel {
 
     onHostDisconnect(reason) {
         for (let listener of this.listeners) {
-            listener.disconnect();
+            listener.removeSource(this);
         }
     }
 

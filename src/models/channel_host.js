@@ -1,21 +1,21 @@
 'use strict';
 
-const ChannelMember = require('./channel_member').ChannelMember
+const ChannelMemberStatus = require('./channel_status').ChannelMemberStatus
     , ChannelStates = require('./channel_status').ChannelStates;
 
-class ChannelHost extends ChannelMember {
+class ChannelHost {
 
     constructor(dataSource, conn) {
-        super(dataSource.productId.hash);
         this.dataSource = dataSource;
         this.conn = conn;
-        this.channel = null;
+        this.status = new ChannelMemberStatus();
+        this._channel = null;
         
         this.conn.on('disconnect', reason => {
-            if (this.channel) {
+            if (this._channel) {
                 this.status.state = ChannelStates.OFFLINE;
                 console.log('State Offline')
-                this.channel.onHostDisconnect();
+                this._channel.onHostDisconnect();
             }
         });
     }
@@ -24,11 +24,7 @@ class ChannelHost extends ChannelMember {
         return this.dataSource.productId.hash;
     }
 
-    get channel() {
-        return this._channel;
-    }
-
-    set channel(channel) {
+    setChannel(channel) {
         if (channel) {
             this._channel = channel;
             this.status.state = ChannelStates.READY;
@@ -39,8 +35,8 @@ class ChannelHost extends ChannelMember {
         this.conn.emit('start');
         this.status.state = ChannelStates.ACTIVE;
         this.conn.on('data', data => {
-            if (this.channel) {
-                this.channel.onData(data);
+            if (this._channel) {
+                this._channel.onData(data);
             }
         });
         console.log('State Active')

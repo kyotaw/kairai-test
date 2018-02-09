@@ -33,6 +33,7 @@ const channelService = {
 
         let host = new ChannelHost(dataSource, conn);
         channel = new Channel(host);
+        host.setChannel(channel);
         await channelRepository.create(channel);
         return channel;
     },
@@ -65,12 +66,11 @@ const channelService = {
 
     async addAggregationListener(conn) {
         const dataSources = await Geo.getDataSourcesInside(conn.query.area, conn.query.dataSourceType);
-        if (dataSource.lenght === 0) {
+        if (dataSources.lenght === 0) {
             throw new errors.KairaiError(errors.ErrorTypes.DATA_SOURCE_NOT_FOUND);
         }
-        let channels = await channelRepository
-            .get(dataSources.map(d => { d.productId.hash }))
-            .filter(c => { !c.status.isOffline });
+        let channels = await channelRepository.get(dataSources.map(d => { return d.productId.hash }));
+        channels = channels.filter(c => { return !c.status.isOffline });
         if (channels.length === 0) {
             throw new errors.KairaiError(errors.ErrorTypes.CHANNEL_NOT_OPEN);
         }

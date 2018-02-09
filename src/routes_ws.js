@@ -2,7 +2,8 @@
 
 const SocketIoServer = require('socket.io')
     , channelController = require('./controllers/channel_controller')
-    , ChannelConnection = require('./models/channel_connection').ChannelConnection;
+    , ChannelConnection = require('./models/channel_connection').ChannelConnection
+    , aggrFilter = require('./middlewares/aggregation_filter');
 
 function routes_ws(httpServer) {
     let io = SocketIoServer(httpServer, {
@@ -23,6 +24,7 @@ function routes_ws(httpServer) {
     });
 
     const aggregationIo = io.of('/aggregation');
+    aggregationIo.use(aggrFilter.convertQueryParams);
     aggregationIo.on('connection', (socket, ack) => {
         const conn = new ChannelConnection(aggregationIo, socket, ack);
         channelController.addAggregationListener(conn);

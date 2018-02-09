@@ -1,24 +1,39 @@
 'use strict';
 
-const ChannelMember = require('./channel_member').ChannelMember
+const ChannelMemberStatus = require('./channel_status').ChannelMemberStatus
     , ChannelStates = require('./channel_status').ChannelStates;
 
-class ChannelListener extends ChannelMember {
+class ChannelListener {
 
     constructor(conn) {
-        super();
         this.conn = conn;
-        this.source = null;
+        this.status = new ChannelMemberStatus();
+        this._source = null;
         
         this.conn.on('disconnect', reason => {
-            if (this.source) {
-                this.source.onListenerDisconnect(this);
+            if (this._source) {
+                this._source.onListenerDisconnect(this);
             }
         });
     }
 
     get id() {
         return 'unknown';
+    }
+    
+    setSource(source) {
+        if (!source) {
+            this.disconnect();
+        } else{
+            this.status.state = ChannelStates.ACTIVE;
+        }
+        this._source = source;
+    }
+
+    removeSource(source) {
+        if (this._source === source) {
+            this.setSource(null);
+        }
     }
 
     disconnect() {

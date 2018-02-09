@@ -15,16 +15,16 @@ class GeoLocation {
     calcDestinationLocation(distance, bearing) {
         const dst = geolib.computeDestinationPoint(
             {
-                lat: this.latitude,
-                lon: this.longitude
+                latitude: this.latitude,
+                longitude: this.longitude,
             },
-            distance,
+            distance * 1000, // convert to m
             bearing);
         return new GeoLocation(dst.latitude, dst.longitude);
     }
 
     isPointInCircle(point, radius) {
-        return geolib.isPointInCircle(point, this, radius);
+        return geolib.isPointInCircle(point, this, radius * 1000);
     }
 
     toDict() {
