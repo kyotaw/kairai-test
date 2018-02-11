@@ -8,13 +8,18 @@ function average(values) {
         return 0;
     }
     if (array.isArray(values[0])) {
-        sum = values.reduce((prev, cur) => {
+        const sum = values.reduce((prev, cur) => {
             for (let i = 0; i < prev.length; ++i) {
-                prev[i] += cur[i];
+                cur[i] += prev[i];
             }
+            return cur; 
         }); 
-        return sum.map(s => {s / len});
+        return sum.map(s => { return s / len; });
     } else {
-        return values.reduce((prev, cur) => { prev + cur }) / len;
+        return values.reduce((prev, cur) => { return prev + cur; }) / len;
     }
+}
+
+module.exports = {
+    average: average
 }

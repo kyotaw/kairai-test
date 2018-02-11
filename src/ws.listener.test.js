@@ -2,16 +2,16 @@
 
 const socketio = require('socket.io-client');
 
-const listener = socketio('http://localhost:6171/direct', {
+//const listener = socketio('http://localhost:6171/direct', {
+const io = socketio('https://kairai.herokuapp.com/direct', {
     query: {
         path: '/api/data_stream',
-        dataSourceHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        dataSourceHash: 'bd161dafc765d42424591c83615279328cc3b7b73fdd68d87b8544492958324d'
     }
 });
 
-listener.on('data', (data) => {
-    console.log('Recieved data: ' + data.x + ', ' + data.y + ', ' + data.y);
+io.on('data', data => {
+    console.log(data);
 });
 
-listener.connect();
-
+io.connect();

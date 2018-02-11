@@ -3,14 +3,20 @@
 const array = require('../helpers/array')
     , ChannelListener = require('./channel_listener').ChannelListener
     , ChannelAggregation = require('./channel_aggregation').ChannelAggregation
+    , ChannelAverage = require('./channel_average').ChannelAverage
     , errors = require('../errors');
+
+const methods = {
+    'raw': ChannelAggregation,
+    'average': ChannelAverage,
+}
 
 class ChannelPipelineBuilder {
    
     constructor() {
         this.sources = [];
         this.isAggregation = false;
-        this.methods = [];
+        this.method = '';
         this.listher = null;
     }
 
@@ -25,8 +31,8 @@ class ChannelPipelineBuilder {
         this.isAggregation = isAggr;
     }
 
-    addMethod(method) {
-        this.methods.push(method);
+    setMethod(method) {
+        this.method = method;
     }
 
     setListener(listener) {
@@ -40,8 +46,11 @@ class ChannelPipelineBuilder {
 
         if (this.isAggregation) {
             // aggregation api
+            if (!methods[this.method]) {
+                throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
+            }
             const listener = new ChannelListener(this.listener);
-            const aggregation = new ChannelAggregation(this.sources, listener);
+            const aggregation = new methods[this.method](this.sources, listener);
             listener.setSource(aggregation);
             for (let source of this.sources) {
                 source.addListener(aggregation);

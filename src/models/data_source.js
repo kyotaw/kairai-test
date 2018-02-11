@@ -19,6 +19,18 @@ class DataSource {
         this.specId = params.specId || null;
         this.location = params.location || null;
     }
+    
+    static get specClass() {
+        return null;
+    }
+
+    static get specEntity() {
+        return null;
+    }
+
+    static get dataClass() {
+        return null;
+    }
 
     toDict() {
         return {

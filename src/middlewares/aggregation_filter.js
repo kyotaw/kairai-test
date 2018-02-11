@@ -10,10 +10,11 @@ function convertQueryParams(socket, next) {
             longitude: parseFloat(query.longitude),
             radius: parseFloat(query.radius)
         }
-        return next();
     } else {
         next(new error.KairaiError(error.ErrorTypes.INVALID_PARAMETERS));
     }
+    query.method = query.method || 'average';
+    return next();
 }
 
 module.exports = {

@@ -79,6 +79,7 @@ const channelService = {
         builder.addSources(channels);
         builder.setAggregation(true);
         builder.setListener(conn);
+        builder.setMethod(conn.query.method);
         channels = builder.build();
         for (let channel of channels) {
             if (channel.status.isReady) {

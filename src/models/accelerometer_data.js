@@ -15,12 +15,14 @@ class AccelerometerData extends Data {
             }
         }
         super(params);
-        this.x = params.x || 0.0;
-        this.y = params.y || 0.0;
-        this.z = params.z || 0.0;
+        this.x = params.x || null;
+        this.y = params.y || null;
+        this.z = params.z || null;
     }
 
-    get plainData() {
+    toArray() {
         return [this.x, this.y, this.z, this.timestamp];
     }
 }
+
+module.exports.AccelerometerData = AccelerometerData;

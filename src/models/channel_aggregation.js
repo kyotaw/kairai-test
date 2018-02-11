@@ -37,8 +37,13 @@ class ChannelAggregation {
             for (let [key, data] of this.valueMap) {
                 values.push(data);
             }
-            this.listener.recieve(values, this);
+            let aggrData = this._aggregate(values);
+            this.listener.recieve(aggrData, this);
         }
+    }
+
+    _aggregate(dataArray) {
+        return dataArray;
     }
 }
 

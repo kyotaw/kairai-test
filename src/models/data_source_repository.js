@@ -1,28 +1,17 @@
 'use strict';
 
 const DataSourceEntity = require('./entities/data_source_entity').DataSourceEntity
-    , AccelerometerSpecEntity = require('./entities/accelerometer_spec_entity').AccelerometerSpecEntity
-    , CameraSpecEntity = require('./entities/camera_spec_entity').CameraSpecEntity
-    , BarometerSpecEntity = require('./entities/barometer_spec_entity').BarometerSpecEntity
-    , PositioningSystemSpecEntity = require('./entities/positioning_system_entity').PositioningSystemSpecEntity
     , dataSourceFactory = require('./data_source_factory')
     , channelRepository = require('./channel_repository')
     , removeNull = require('../helpers/object').removeNull
     , Op = require('../infrastructures/sequelizedb').Sequelize.Op;
 
-const specs = {
-    accelerometer: AccelerometerSpecEntity,
-    camera: CameraSpecEntity,
-    barometer: BarometerSpecEntity,
-    positioningSystem: PositioningSystemSpecEntity,
-}
-
 const dataSourceRepository = {
 
     async create(dataSource) {
         let specEntity = null;
-        if (specs[dataSource.sourceType]) {
-            specEntity = await specs[dataSource.sourceType].create(removeNull(dataSource.spec.toDict()));
+        if (dataSource.specEntity) {
+            specEntity = await dataSource.specEntity.create(removeNull(dataSource.spec.toDict()));
             dataSource.specId = specEntity.id;
         }
         let entity = this._buildDataSourceEntity(dataSource);
@@ -111,10 +100,11 @@ const dataSourceRepository = {
     },
 
     async _populateSpec(entity) {
-        if (!specs[entity.sourceType]) {
+        const specEntity = dataSourceFactory.getSourceClass(entity.sourceType).specEntity;
+        if (!specEntity) {
             entity.spec = null;
         } else {
-            entity.spec = await specs[entity.sourceType].findById(entity.specId);
+            entity.spec = await specEntity.findById(entity.specId);
         }
         return entity;
     },

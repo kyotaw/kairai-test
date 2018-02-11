@@ -1,11 +1,12 @@
 'use strict';
 
-const socketio = require('socket.io-client');
+const socketio = require('socket.io-client')
+    , timestamp = require('./helpers/time').timestamp;
 
 const socket = socketio('http://localhost:6171/sources', {
     query: {
         path: '/api/data_stream',
-        dataSourceHash: "3e744b9dc39389baf0c5a0660589b8402f3dbb49b89b3e75f2c9355852a3c677",
+        dataSourceHash: "af063a9570d3f02b67349bd2e94c9af56d2fd03a777786aff3c8212d5925f2b8",
         latitude: 35,
         longitude: 170
     }
@@ -23,8 +24,9 @@ let timer = null;
 socket.on('start', () => {
     console.log('START delivering data');
     timer = setInterval(() => {
-        const data = {x: Math.random() % 10, y: Math.random() % 10, z: Math.random() % 10};
-        console.log('Send data: ' + data.x + ', ' + data.y + ', ' + data.z);
+        const data = {pressure: Math.random() % 100, timestamp: timestamp()};
+        console.log('Send data:');
+        console.log(data);
         socket.emit('data', data)
     }, 10);
 });

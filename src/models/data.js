@@ -5,7 +5,7 @@ const timestamp = require('../helpers/time').timestamp;
 class Data {
 
     constructor(params) {
-        timestamp = params.timestamp || timestamp();
+        this.timestamp = params.timestamp || timestamp();
     }
 }
 

@@ -36,7 +36,8 @@ class ChannelHost {
         this.status.state = ChannelStates.ACTIVE;
         this.conn.on('data', data => {
             if (this._channel) {
-                this._channel.onData(data);
+                const d = new this.dataSource.dataClass(data);
+                this._channel.onData(d);
             }
         });
         console.log('State Active')
