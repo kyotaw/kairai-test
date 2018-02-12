@@ -1,7 +1,8 @@
 'use strict';
 
 const ChannelAggregation = require('./channel_aggregation').ChannelAggregation
-    , average = require('../helpers/statistics').average;
+    , average = require('../helpers/statistics').average
+    , timestamp = require('../helpers/time').timestamp;
 
 class ChannelAverage extends ChannelAggregation {
 
@@ -12,6 +13,7 @@ class ChannelAverage extends ChannelAggregation {
         const values = dataArray.map(d => { return d.toArray(); });
         const ave = average(values);
         let aveData = new dataArray[0].constructor(ave);
+        aveData.timestamp = timestamp();
         aveData.samples = dataArray.length;
         return aveData;
     }
