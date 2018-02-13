@@ -11,7 +11,7 @@ const userRepository = {
     },
 
     async getBySocialId(socialUserId, socialLoginSystem) {
-        const entity = User.find({where: {socialUserId: socialUserId, socialLoginSystem: socialLoginSystem}});
+        const entity = UserEntity.find({where: {socialUserId: socialUserId, socialLoginSystem: socialLoginSystem}});
         return new User(entity);
     }
 }
