@@ -44,7 +44,7 @@ function routes() {
         if (err instanceof errors.KairaiError) {
             shortcut.errorResponse(res, err);
         } else {
-            shortcut.errorResponse(res);
+            next(err);
         }
     });
 
