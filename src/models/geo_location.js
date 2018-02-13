@@ -29,8 +29,8 @@ class GeoLocation {
 
     toDict() {
         return {
-            latitude: this.latitude,
-            longitude: this.longitude
+            latitude: geolib.decimal2sexagesimal(this.latitude) + ' N',
+            longitude: geolib.decimal2sexagesimal(this.longitude) + ' E'
         }
     }
 }
