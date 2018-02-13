@@ -4,13 +4,20 @@ const Router = require('express').Router
     , monoControlelr = require('./controllers/mono_controller')
     , dataSourceController = require('./controllers/data_source_controller')
     , channelController = require('./controllers/channel_controller')
+    , authController = require('./controllers/auth_controller')
     , monoFilter = require('./middlewares/mono_filter')
+    , socialLogin = require('./middlewares/social_login')
     , errors = require('./errors')
     , shortcut = require('./controllers/response_shortcuts');
 
 function routes() {
     const root = '/api/';
     let router = Router();
+
+    // auth
+    const auth = root + 'auth/';
+    router.get(auth + 'google/login', socialLogin.authenticateByGoogle());
+    router.get(auth + 'google/callback', socialLogin.callbackFromGoogle());
 
     // monos
     const monos = root + 'monos/';
@@ -25,6 +32,7 @@ function routes() {
     // datasources
     const dataSources = root + 'data_sources/';
     router.get(dataSources, dataSourceController.get);
+    router.delete(dataSources + ':hash', dataSourceController.delete);
 
     // channels
     const channels = root + 'channels/';

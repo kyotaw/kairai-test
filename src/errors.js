@@ -14,6 +14,9 @@ const ErrorTypes = {
     
     CHANNEL_ALREADY_OPEN: 401,
     CHANNEL_NOT_OPEN: 402,
+
+    USER_ALREADY_EXISTS: 501,
+    USER_NOT_FOUND: 502,
 }
 
 let ErrorMessages = {}
@@ -30,6 +33,9 @@ ErrorMessages[ErrorTypes.DATA_SOURCE_NOT_FOUND] = 'the data source not found';
 
 ErrorMessages[ErrorTypes.CHANNEL_ALREADY_OPEN] = 'channel already open';
 ErrorMessages[ErrorTypes.CHANNEL_ALREADY_OPEN] = 'channel not open';
+
+ErrorMessages[ErrorTypes.USER_ALREADY_EXISTS] = 'the user already exists';
+ErrorMessages[ErrorTypes.USER_NOT_FOUND] = 'the user not found';
 
 class KairaiError extends Error {
     constructor(errorType, message=null) {

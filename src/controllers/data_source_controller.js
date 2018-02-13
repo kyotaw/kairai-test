@@ -13,6 +13,19 @@ const dataSourceController = {
         }).catch (err => {
             shortcut.error500Response(res, err);
         });
+    },
+
+    delete(req, res) {
+        dataSourceService.delete(req.params).then(() => {
+            shortcut.successResponse(res);
+        }).catch (err => {
+            if (err.errorType === errorTypes.DATA_SOURCE_NOT_FOUND) {
+                res.status(400);
+                shortcut.errorResponse(res, err); 
+            } else {
+                shortcut.error500Response(res, err);
+            }
+        });
     }
 }
 

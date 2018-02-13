@@ -23,6 +23,16 @@ const dataSourceRepository = {
         return dataSource;
     },
 
+    async deleteByHash(hash) {
+        let dataSource = await this.getByHash(hash);
+        if (!dataSource) {
+            return false;
+        }
+        await dataSource.specEntity.destroy({where: {id: dataSource.specId}});
+        await DataSourceEntity.destroy({where: {id: dataSource.id}});
+        return true;
+    },
+
     async update(dataSource) {
         const entity = await DataSourceEntity.find({where: {hash: dataSource.productId.hash}});
         if (!entity) {

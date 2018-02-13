@@ -2,6 +2,7 @@
 
 const express = require('express')
   , bodyParser = require('body-parser')
+  , passport = require('passport')
   , http = require('http')
   , env = require('./env')
   , ip = require('./helpers/ip')
@@ -13,6 +14,7 @@ const express = require('express')
 async function start() {
 	var app = express();
     app.use(cors);
+    app.use(passport.initialize());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
     app.use(routes());
