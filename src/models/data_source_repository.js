@@ -86,7 +86,7 @@ const dataSourceRepository = {
     },
 
     async getAll() {
-        const entities = await DataSourceEntity.findAll({order: [['createdAt': 'DESC']] });
+        const entities = await DataSourceEntity.findAll({order: [['createdAt', 'DESC']] });
         return await this._createFromEntity(entities);
     },
 
