@@ -7,7 +7,7 @@ const schema = {
     properties: {
         id: { type: db.Sequelize.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true },
         methods: { type: db.Sequelize.ARRAY(db.Sequelize.TEXT), allowNull: false, defaultValue: [] },
-        maxAccuracy: { type: db.Sequelize.FLOAT, allowNull: false },
+        maxAccuracy: { type: db.Sequelize.FLOAT, allowNull: false, defaultValue: -1 },
     }
 }
 

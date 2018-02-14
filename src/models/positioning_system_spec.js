@@ -1,14 +1,12 @@
 'use strict';
 
-const INVALID_MAX_ACCURACY = -1;
-
 class PositioningSystemSpec {
 
     constructor(params) {
         params = params || {};
         this.methods = params.methods || [];
         this.maxAccuracy = params.maxAccuracy;
-        if (this.maxAccuracy === undefined || this.maxAccuracy === INVALID_MAX_ACCURACY) {
+        if (this.maxAccuracy === undefined || this.maxAccuracy < 0) {
             this.maxAccuracy = null;
         }
     }

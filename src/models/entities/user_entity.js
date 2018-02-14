@@ -16,7 +16,6 @@ const schema = {
 }
 
 const UserEntity = db.define('user', schema);
-UserEntity.hasMany(MonoEntity);
 
 module.exports = {
     UserEntity: UserEntity,
