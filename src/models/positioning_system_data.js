@@ -8,18 +8,19 @@ class PositioningSystemData extends Data {
     constructor(params) {
         if (array.isArray(params)) {
             params = {
-                latitude: params[0],
-                longitude: params[1],
+                location: {
+                    latitude: params[0],
+                    longitude: params[1]
+                },
                 timestamp: params[2]
             }
         }
         super(params);
-        this.latitude = params.latitude || null;
-        this.longitude = params.longitude || null;
+        this.location = params.location || null;
     }
 
     toArray() {
-        return [this.latitude, this.longitude, this.timestamp];
+        return [this.location.latitude, this.location.longitude, this.timestamp];
     }
 }
 
