@@ -6,7 +6,7 @@ class Data {
 
     constructor(params) {
         this.timestamp = params.timestamp || timestamp();
-        this.latitude = params.location || null;
+        this.location = params.location || null;
     }
 }
 
