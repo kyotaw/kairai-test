@@ -36,6 +36,8 @@ class ChannelHost {
         this.status.state = ChannelStates.ACTIVE;
         this.conn.on('data', data => {
             if (this._channel) {
+                data.location = data.location ||
+                    this.dataSource.location ? this.dataSource.location.toDict() : null;
                 const d = new this.dataSource.dataClass(data);
                 this._channel.onData(d);
             }
