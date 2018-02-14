@@ -15,6 +15,7 @@ class ChannelAverage extends ChannelAggregation {
         let aveData = new dataArray[0].constructor(ave);
         aveData.timestamp = timestamp();
         aveData.samples = dataArray.length;
+        delete aveData['location'];
         return aveData;
     }
 }
