@@ -8,7 +8,8 @@ const DataSourceEntity = require('./entities/data_source_entity').DataSourceEnti
 
 const dataSourceRepository = {
 
-    async create(dataSource) {
+    async create(params) {
+        let dataSource = dataSourceFactory.createFromDict(params);
         let specEntity = null;
         if (dataSource.specEntity) {
             specEntity = await dataSource.specEntity.create(removeNull(dataSource.spec.toDict()));

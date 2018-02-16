@@ -4,11 +4,15 @@ class User {
 
     constructor(params) {
         params = params || {};
-        this.userId = params.userId || null;
-        this.email = params.email || null;
-        this.socialUserId = params.socialUserId || null;
-        this.socialLoginSystem = params.socialLoginSystem || null;
+        this.id = params.id;
+        this.userId = params.userId;
+        this.socialUserId = params.socialUserId;
+        this.password = params.password;
+        this.email = params.email;
         this.name = params.name || params.userId || params.socialUserId || 'guest';
+        this.salt = params.salt;
+        this.hashVersion = params.hashVersion;
+        this.loginSystem = params.loginSystem;
     }
 
     toDict() {
@@ -17,7 +21,7 @@ class User {
             email: this.email,
             name: this.name,
             socialUserId: this.socialUserId,
-            socialLoginSystem: this.socialLoginSystem,
+            loginSystem: this.loginSystem,
         }
     }
 }

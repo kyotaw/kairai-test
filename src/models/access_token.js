@@ -7,12 +7,12 @@ class AccessToken {
     
     constructor(user) {
         this.token = jwt.sign({},
-            env.accessToken.JWT_SECRET,
+            env.auth.accessToken.JWT_SECRET,
             {
-                expiresIn: env.accessToken.JWT_EXPIRES_IN,
-                audience: env.accessToken.JWT_AUDIENCE,
-                issuer: env.accessToken.JWT_ISSURE,
-                subject: user.userId || user.socialUserId,
+                expiresIn: env.auth.accessToken.JWT_EXPIRES_IN,
+                audience: env.auth.accessToken.JWT_AUDIENCE,
+                issuer: env.auth.accessToken.JWT_ISSURE,
+                subject: user.id.toString(),
             }
         );
     }

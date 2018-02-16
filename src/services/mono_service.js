@@ -1,17 +1,14 @@
 'use strict';
 
-const factory = require('../models/mono_factory')
-    , monoRepository = require('../models/mono_repository')
-    , dataSourceFactory = require('../models/data_source_factory')
+const monoRepository = require('../models/mono_repository')
     , dataSourceRepository = require('../models/data_source_repository')
     , ProductId = require('../models/product_id').ProductId
     , errors = require('../errors');
 
 const monoService = {
 
-    createMono(params) {
-        const mono = factory.createFromDict(params);
-        return monoRepository.create(mono);
+    async createMono(params) {
+        return await monoRepository.create(params);
     },
 
     async getMonos(params) {
@@ -24,9 +21,8 @@ const monoService = {
             throw new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND); 
         }
         params['monoHash'] = monoHash;
-        const dataSource = dataSourceFactory.createFromDict(params);
+        const dataSource = await dataSourceRepository.create(params);
         monos[0].addDataSource(dataSource);
-        await dataSourceRepository.create(dataSource);
         return dataSource;
     },
 

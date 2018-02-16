@@ -2,6 +2,7 @@
 
 const express = require('express')
   , bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
   , passport = require('passport')
   , http = require('http')
   , path = require('path')
@@ -21,7 +22,7 @@ async function start() {
 	app.use(bodyParser.urlencoded({extended: false}));
 
     // site
-    app.use(express.cookieParser());
+    app.use(cookieParser());
     app.set('views', path.join(path.resolve(''), 'public/frontend/dist'));
     app.set('view engine', 'html');
     app.engine('html', ejs.renderFile);

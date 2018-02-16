@@ -7,14 +7,14 @@
     try {
 	    settings = require('../settings');
     } catch (e) {
-        // ignore
+        console.log('Lot Settings.js failed');
     }
 
     Env.SRC_ROOT_DIR = __dirname;
 
 	Env.DB_HOST = process.env.DB_HOST || settings.DB_HOST || 'localhost';
     Env.DB_NAME = process.env.DB_NAME || settings.DB_NAME || 'kairaidb';
-    Env.DB_USER_NAME = process.env.DB_USER_NAME || settings.DB_USER_NAME || 'postgres';
+    Env.DB_USER_NAME = process.env.DB_USER_NAME || settings.DB_USER_NAME || 'postgres2';
     Env.DB_PASSWORD = process.env.DB_PASSWORD || settings.DB_PASSWORD || '';
     Env.DATABASE_URL = process.env.DATABASE_URL || settings.DATABASE_URL || '';
 
@@ -27,6 +27,15 @@
     }
 
     Env.auth = {
+        hash: [
+            {
+                HASH_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 64,
+                SALT_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 16,
+                ITERATION: process.env.AUTH_HASH_ITERATION_V0 || 100000,
+                ALGO: process.env.AUTH_HASH_ALGO_V0 || 'sha512',
+                VERSION: process.env.AUTH_HASH_VERSION_V0 || 0
+            }
+        ],
         accessToken: {
             JWT_KEY: process.env.AUTH_JWT_PUBLIC_KEY || settings.AUTH_JWT_PUBLIC_KEY || null,
             JWT_SECRET: process.env.AUTH_JWT_SECRET_KEY || settings.AUTH_JWT_SECRET_KEY || null,

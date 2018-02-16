@@ -8,7 +8,8 @@ const MonoEntity = require('./entities/mono_entity').MonoEntity
 
 const monoRepository = {
 
-    async create(mono) {
+    async create(params) {
+        const mono = factory.createFromDict(params);
         let exists = await this.get(mono.toDict());
         if (exists.length > 0) {
             throw new errors.KairaiError(errors.ErrorTypes.MONO_ALREADY_EXISTS);
