@@ -10,7 +10,7 @@ const listener = socketio('https://kairai.herokuapp.com/aggregation', {
         latitude: 35.7007777,
         longitude: 139.71475,
         radius: '200', // km
-        method: 'raw'
+        method: 'average'
     }
 });
 

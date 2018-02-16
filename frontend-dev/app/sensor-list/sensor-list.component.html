@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+  <span>environment: {{environment}}, {{activeSensors}} active and {{readySensors}} ready sensors</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side" color="primary">
+  </mat-sidenav>
+  <mat-sidenav-content class="basic-container">
+    <div fxLayoutWrap fxLayoutGap="10px">
+      <div fxFlex="22" fxFlex.sm="33.3" fxFlex.xs="50" *ngFor="let sensor of sensors">
+          <app-sensor [sensor]="sensor">
+          </app-sensor>
+          <br/>
+      </div>
+    </div>
+  </mat-sidenav-content>
+<mat-sidenav-container>

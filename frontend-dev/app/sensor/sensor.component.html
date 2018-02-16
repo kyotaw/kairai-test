@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-title>{{sensorName}}</mat-card-title>
+  <mat-card-subtitle>{{sensorType}}</mat-card-subtitle>
+  <mat-card-content *ngIf="isOverview">
+  <ul>
+      <li><span class="bold-text">Status: </span>{{sensorStatus}}</li>
+      <li><span class="bold-text">Location: </span></li>
+      <li><span>{{location}}</span></li>
+  </ul>
+  </mat-card-content>
+  <mat-card-content *ngIf="!isOverview">
+      <app-accelerometer-spec *ngIf="isAccelerometer(sensor)" [sensor]="sensor"></app-accelerometer-spec>    
+      <app-camera-spec *ngIf="isCamera(sensor)" [sensor]="sensor"></app-camera-spec>    
+      <app-barometer-spec *ngIf="isBarometer(sensor)" [sensor]="sensor"></app-barometer-spec>    
+      <app-positioning-system-spec *ngIf="isPositioningSystem(sensor)" [sensor]="sensor"></app-positioning-system-spec>    
+  </mat-card-content>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-actions *ngIf="isOverview">
+      <button class="btn" mat-button matTooltip="{{sensor.productId.hash}}" ngxClipboard [cbContent]="sensor.productId.hash">Copy hash</button>
+      <button class="btn" mat-button (click)="showDetail()">Specs</button>
+  </mat-card-actions>
+  <mat-card-actions *ngIf="!isOverview">
+      <button class="btn" mat-button matTooltip="{{sensor.productId.hash}}" ngxClipboard [cbContent]="sensor.productId.hash">Copy hash</button>
+      <button class="btn" mat-button (click)="showOverview()">Status</button>
+  </mat-card-actions>
+</mat-card>

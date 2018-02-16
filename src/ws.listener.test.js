@@ -6,7 +6,7 @@ const socketio = require('socket.io-client');
 const io = socketio('https://kairai.herokuapp.com/direct', {
     query: {
         path: '/api/data_stream',
-        dataSourceHash: 'a9da57797d39979441a64a27542c2255a3586c0b34d4ef5b1d294d579970d901'
+        dataSourceHash: 'a1440b79415e9406bd73ae674647b35a88eaa301d24fe30d15b34f6b8327c4b8'
     }
 });
 

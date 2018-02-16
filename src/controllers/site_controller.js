@@ -4,9 +4,9 @@ const authService = require('../services/auth_service')
     , shortcut = require('./response_shortcuts')
     , errorTypes = require('../errors').ErrorTypes;
    
-const authController = {
+const siteController = {
 
-    generateAccessToken(req, res) {
+    loggedin(req, res) {
         const token = authService.generateAccessToken(req.user);
         shortcut.successResponse(token);
     }
