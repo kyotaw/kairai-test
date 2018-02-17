@@ -32,7 +32,16 @@ const userService = {
         if (user) {
             throw new errors.KairaiError(errors.ErrorTypes.USER_ALREADY_EXISTS);
         }
+        params.userId = hash.randomBytes(64);
         return await userRepository.create(params);
+    },
+
+    async getById(id) {
+        return await userRepository.getById(id);
+    },
+    
+    async getByUserId(userId) {
+        return await userRepository.getUserById(userId);
     },
 
     async getBySocialId(socialUserId, loginSystem) {

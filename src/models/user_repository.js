@@ -10,6 +10,16 @@ const userRepository = {
         return new User(params);
     },
 
+    async getById(id) {
+        const entity = await UserEntity.find({where: {id: id}});
+        return entity ? new User(entity) : null;
+    },
+    
+    async getByUserId(userId) {
+        const entity = await UserEntity.find({where: {userId: userId}});
+        return entity ? new User(entity) : null;
+    },
+
     async getByUserId(userId) {
         const entity = await UserEntity.find({where: {userId: userId}});
         return entity ? new User(entity) : null;

@@ -10,24 +10,35 @@ const monoRepository = {
 
     async create(params) {
         const mono = factory.createFromDict(params);
-        let exists = await this.get(mono.toDict());
-        if (exists.length > 0) {
-            throw new errors.KairaiError(errors.ErrorTypes.MONO_ALREADY_EXISTS);
-        }
         let entity = await MonoEntity.create(mono.toDict());
         mono.id = entity.id;
         return mono;
     },
 
-    async get(queryParams) {
-        const entities = await MonoEntity.findAll(this._buildQuery(queryParams));
+    async getByUserId(userId) {
+        const entities = await MonoEntity.findAll({where: {ownerId: userId}});
         let monos = [];
         for (let e of entities) {
-            const mono = await factory.createFromEntity(e);
-            mono.dataSources = await dataSourceRepository.getByMonoHash(mono.productId.hash);
+            const mono = await this._buildMono(e); 
             monos.push(mono);
         }
-        return monos; 
+        return monos;
+    },
+
+    async getByHash(hash) {
+        const entity = await MonoEntity.find({where: {hash: hash}});
+        return await this._buildMono(entity); 
+    },
+
+    async getByProductId(productId) {
+        let query = {};
+        query.where = {};
+        query.where.modelNumber = productId.modelNumber;
+        query.where.serialNumber = productId.serialNumber;
+        query.where.vendorName = productId.vendorName;
+        const entity = await MonoEntity.find(query);
+        return await this._buildMono(entity); 
+         
     },
 
     async update(mono) {
@@ -40,20 +51,13 @@ const monoRepository = {
         return mono;
     },
 
-    _buildQuery(params) {
-        let query = {};
-        query.where = {};
-        if (params.userId) {
-            //
+    async _buildMono(entity) {
+        if (!entity) {
+            return null;
         }
-        if (params.hash) {
-            query.where.hash = params.hash;
-        } else if (params.modelNumber) {
-            query.where.modelNumber = params.modelNumber;
-            query.where.serialNumber = params.serialNumber;
-            query.where.vendorName = params.vendorName;
-        }
-        return query
+        const mono = await factory.createFromEntity(entity);
+        mono.dataSources = await dataSourceRepository.getByMonoHash(mono.productId.hash);
+        return mono;
     }
 }
 

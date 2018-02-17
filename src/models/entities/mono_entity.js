@@ -11,7 +11,7 @@ const schema = {
         serialNumber: { type: db.Sequelize.STRING, allowNull: false },
         vendorName: { type: db.Sequelize.STRING, allowNull: false },
         hash: { type: db.Sequelize.STRING, allowNull: false },
-        ownerId: { type: db.Sequelize.INTEGER, allowNull: false },
+        ownerId: { type: db.Sequelize.STRING, allowNull: false },
     }
 }
 

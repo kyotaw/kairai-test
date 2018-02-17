@@ -9,7 +9,7 @@ const monoService = require('../services/mono_service')
 const monoControlelr = {
 
     create(req, res) {
-        monoService.createMono(req.body).then((mono) => {
+        monoService.createMono(req.body, req.user).then((mono) => {
             shortcut.successResponse(res, monoResponse.monosResponse(mono));
         }, (err) => {
             if (err.errorType === errorTypes.MONO_ALREADY_EXISTS) {
@@ -38,7 +38,7 @@ const monoControlelr = {
         monoService.addDataSource(req.params.monoHash, req.body).then((dataSource) => {
             shortcut.successResponse(res, dataSourceResponse.dataSourcesResponse(dataSource));
         }, (err) => {
-            if (err.errorType === errorTypes.MONO_NOT_FOUND) {
+            if (err.errorType === errorTypes.MONO_NOT_FOUND || err.errorType === errorTypes.DATA_SOURCE_ALREADY_EXISTS) {
                 res.status(400);
                 shortcut.errorResponse(res, err); 
             } else {
@@ -47,8 +47,8 @@ const monoControlelr = {
         });
     },
 
-    getAllDataSources(req, res) {
-        monoService.getAllDataSources(req.params.monoHash).then((dataSources) => {
+    getDataSources(req, res) {
+        monoService.getDataSources(req.params.monoHash).then((dataSources) => {
             shortcut.successResponse(res, dataSourceResponse.dataSourcesResponse(dataSources));
         }, (err) => {
             if (err.errorType === errorTypes.MONO_NOT_FOUND) {

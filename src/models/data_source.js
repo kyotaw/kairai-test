@@ -8,7 +8,6 @@ class DataSource {
     constructor(params) {
         params = params || {}
         this.id = params.id || null;
-        this.monoId = params.monoId || null;
         this.name = params.name || '';
         this.productId = params.productId || null;
         this.sourceType = params.sourceType || null;

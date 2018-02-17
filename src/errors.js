@@ -18,7 +18,8 @@ const ErrorTypes = {
     USER_ALREADY_EXISTS: 501,
     USER_NOT_FOUND: 502,
 
-    AUTH_PASSWORD_DONOT_MATCH: 601,
+    AUTH_NOT_AUTHORIZED: 601,
+    AUTH_PASSWORD_DONOT_MATCH: 602,
 }
 
 let ErrorMessages = {}
@@ -39,7 +40,8 @@ ErrorMessages[ErrorTypes.CHANNEL_ALREADY_OPEN] = 'channel not open';
 ErrorMessages[ErrorTypes.USER_ALREADY_EXISTS] = 'the user already exists';
 ErrorMessages[ErrorTypes.USER_NOT_FOUND] = 'the user not found';
 
-ErrorMessages[ErrorTypes.PASSWORD_DONOT_MATCH] = 'user id or password do not match';
+ErrorMessages[ErrorTypes.AUTH_NOT_AUTHORIZED] = 'authentication failed';
+ErrorMessages[ErrorTypes.AUTH_PASSWORD_DONOT_MATCH] = 'user id or password do not match';
 
 class KairaiError extends Error {
     constructor(errorType, message=null) {

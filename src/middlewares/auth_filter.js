@@ -2,9 +2,35 @@
 
 const passport = require('passport')
     , google = require('passport-google-oauth')
+    , jwt = require('passport-jwt')
     , env = require('../env')
-    , userService = require('../services/user_service');
+    , userService = require('../services/user_service')
+    , errors = require('../errors');
 
+const jwtOptions = {
+    jwtFromRequest: jwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: env.auth.accessToken.JWT_SECRET,
+    issure: env.auth.accessToken.JWT_ISSURE,
+    audience: env.auth.accessToken.JWT_AUDIENCE
+}
+
+passport.use(new jwt.Strategy(jwtOptions, (payload, done) => {
+    userService.getById(parseInt(payload.sub)).then(user => {
+        if (user) {
+            done(null, user, payload);
+        } else {
+            done(new errors.KairaiError(errors.ErrorTypes.USER_NOT_FOUND));
+        }
+    }).catch (err => {
+        done(err);
+    });
+}));
+
+function authenticateWithJwt() {
+    return passport.authenticate(['jwt'], {session: false});
+}
+
+/*
 passport.use(new google.OAuth2Strategy(
     {
         clientID: env.auth.google.CLIENT_ID,
@@ -25,6 +51,7 @@ passport.use(new google.OAuth2Strategy(
         });
     }
 ));
+*/
 
 function authenticateByGoogle() {
     return passport.authenticate('google', {session: false, scope: ['openid', 'profile']});
@@ -35,6 +62,7 @@ function callbackFromGoogle() {
 }
 
 module.exports = {
+    authenticateWithJwt: authenticateWithJwt,
     authenticateByGoogle: authenticateByGoogle,
     callbackFromGoogle: callbackFromGoogle,
 }

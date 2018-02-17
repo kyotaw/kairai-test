@@ -8,7 +8,7 @@ const Router = require('express').Router
     , channelController = require('./controllers/channel_controller')
     , siteController = require('./controllers/site_controller')
     , monoFilter = require('./middlewares/mono_filter')
-    //, socialLogin = require('./middlewares/social_login')
+    , authFilter = require('./middlewares/auth_filter')
     , errors = require('./errors')
     , shortcut = require('./controllers/response_shortcuts');
 
@@ -21,10 +21,13 @@ function routes() {
     router.get(auth + 'login/', authController.login);
     //router.get(auth + 'google/login', socialLogin.authenticateByGoogle());
     //router.get(auth + 'google/callback', socialLogin.callbackFromGoogle(), siteController.loggedin);
-
+    
     // users
     const users = root + 'users/';
     router.post(users, userController.create);
+
+    // require authentication    
+    //router.use(authFilter.authenticateWithJwt());
 
     // monos
     const monos = root + 'monos/';
@@ -33,7 +36,7 @@ function routes() {
     
     // monos/data sources
     const mono_dataSources = monos + ':monoHash/data_sources';
-    router.get(mono_dataSources, monoControlelr.getAllDataSources);
+    router.get(mono_dataSources, monoControlelr.getDataSources);
     router.post(mono_dataSources, monoControlelr.addDataSource);
 
     // datasources

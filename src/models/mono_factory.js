@@ -10,7 +10,8 @@ const monoFactory = {
 
     createFromDict(params) {
         const productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
-        return new Mono(params.name, productId);
+        params.productId = productId;
+        return new Mono(params);
     },
 
     async createFromEntity(params) {

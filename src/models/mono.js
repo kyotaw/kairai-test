@@ -5,10 +5,11 @@ const MonoEntity = require('./entities/mono_entity').MonoEntity
 
 class Mono {
 
-    constructor(name, productId) {
-        this.id = null;
-        this.productId = productId;
-        this.name = name;
+    constructor(params) {
+        this.id = params.id;
+        this.productId = params.productId;
+        this.name = params.name;
+        this.ownerId = params.ownerId;
         this.dataSources = [];
     }
 
@@ -26,6 +27,7 @@ class Mono {
             serialNumber: this.productId.serialNumber,
             vendorName: this.productId.vendorName,
             hash: this.productId.hash,
+            ownerId: this.ownerId,
         }
     }
 }

@@ -34,10 +34,8 @@ async function start() {
     routes_ws(server);
 
     await db.start();
-    const host = await ip();
     server.listen(env.APISERVER_PORT, () => {
-        const url = host + ':' + env.APISERVER_PORT;
-	    console.log('Kairai server is working at ' + url);
+	    console.log('Kairai server is working');
     });
 }
 
