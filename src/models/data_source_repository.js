@@ -9,7 +9,7 @@ const DataSourceEntity = require('./entities/data_source_entity').DataSourceEnti
 const dataSourceRepository = {
 
     async create(params) {
-        let dataSource = dataSourceFactory.createFromDict(params);
+        let dataSource = await dataSourceFactory.createFromDict(params);
         let specEntity = null;
         if (dataSource.specEntity) {
             specEntity = await dataSource.specEntity.create(removeNull(dataSource.spec.toDict()));
@@ -46,6 +46,23 @@ const dataSourceRepository = {
 
     async getByHash(hash) {
         const entity = await DataSourceEntity.find({where: {hash: hash}});
+        if (!entity) {
+            return null;
+        }
+        await this._populateSpec(entity);
+        let dataSource = await dataSourceFactory.createFromEntity(entity);
+        return await this._fetch_state(dataSource);
+    },
+    
+    async getByProductId(productId) {
+        const query = {
+            where: {
+                modelNumber: productId.modelNumber,
+                serialNumber: productId.serialNumber,
+                vendorName: productId.vendorName
+            }
+        };
+        const entity = await DataSourceEntity.find(query);
         if (!entity) {
             return null;
         }

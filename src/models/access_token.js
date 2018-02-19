@@ -16,6 +16,12 @@ class AccessToken {
             }
         );
     }
+
+    toDict() {
+        return {
+            accessToken: this.token
+        }
+    }
 }
 
 module.exports.AccessToken = AccessToken;

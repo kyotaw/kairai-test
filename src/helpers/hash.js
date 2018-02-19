@@ -1,6 +1,7 @@
 'use strict';
 
-const crypto = require('crypto');
+const crypto = require('crypto')
+    , hashEnv = require('../env').auth.hash
 
 function sha256(data) {
     const algo = crypto.createHash('sha256');
@@ -27,8 +28,21 @@ function randomBytes(bytes) {
     return crypto.randomBytes(bytes).toString('hex');
 }
 
+async function pbkdf2LatestVersion(plainText) {
+    const latestHashEnv = hashEnv.latestVersion;
+    const salt = randomBytes(latestHashEnv.SALT_LENGTH);
+    const hash = await pbkdf2(
+        plainText,
+        salt,
+        latestHashEnv.ITERATION,
+        latestHashEnv.HASH_LENGTH,
+        latestHashEnv.ALGO);
+   return hash; 
+}
+
 module.exports = {
     sha256: sha256,
     pbkdf2: pbkdf2,
-    randomBytes: randomBytes
+    randomBytes: randomBytes,
+    pbkdf2LatestVersion: pbkdf2LatestVersion
 }

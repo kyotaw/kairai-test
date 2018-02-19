@@ -3,6 +3,7 @@
 const DataSource = require('./data_source').DataSource
     , DataSourceEntity = require('./entities/data_source_entity').DataSourceEntity
     , ProductId = require('./product_id').ProductId
+    , pbkdf2 = require('../helpers/hash').pbkdf2LatestVersion
     , Accelerometer = require('./accelerometer').Accelerometer
     , Camera = require('./camera').Camera
     , Barometer = require('./barometer').Barometer
@@ -18,11 +19,21 @@ const sources = {
 
 const dataSourceFactory = {
 
-    createFromDict(params) {
+    async createFromDict(params) {
         if (!params || !sources[params.sourceType]) {
             return null;
         }
-        params.productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
+
+        let productId = null;
+        if (params.hash) {
+            productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName, params.hash);
+        } else {
+            const plainText = [params.modelNumber, params.serialNumber, params.vendorName].join('.');
+            const hash = await pbkdf2(plainText);
+            productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName, hash);
+        }
+        params.productId = productId;
+
         if (params.latitude && params.longitude) {
             params.location = new GeoLocation(params.latitude, params.longitude);
         }
@@ -42,7 +53,7 @@ const dataSourceFactory = {
             params.latitude = null;
             params.longitude = null;
         }
-        let dataSource = this.createFromDict(params);
+        let dataSource = await this.createFromDict(params);
         dataSource.id = entity.id;
         dataSource.monoId = entity.monoId;
         if (entity.spec) {

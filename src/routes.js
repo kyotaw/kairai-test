@@ -27,7 +27,7 @@ function routes() {
     router.post(users, userController.create);
 
     // require authentication    
-    //router.use(authFilter.authenticateWithJwt());
+    router.use(authFilter.authenticateWithJwt());
 
     // monos
     const monos = root + 'monos/';

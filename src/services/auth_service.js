@@ -16,9 +16,9 @@ const authService = {
         const hashedPass = await hash.pbkdf2(
             password,
             user.salt,
-            hashEnv[user.hashVersion].ITERATION,
-            hashEnv[user.hashVersion].HASH_LENGTH,
-            hashEnv[user.hashVersion].ALGO);
+            hashEnv.versions[user.hashVersion].ITERATION,
+            hashEnv.versions[user.hashVersion].HASH_LENGTH,
+            hashEnv.versions[user.hashVersion].ALGO);
         if (user.password !== hashedPass) {
             throw new errors.KairaiError(errors.ErrorTypes.PASSWORD_DONOT_MATCH);
         }

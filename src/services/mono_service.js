@@ -24,12 +24,15 @@ const monoService = {
             if (!user) {
                 return [];
             }
-            return await monoRepository.getByUserId(user.id);
+            const mono = await monoRepository.getByUserId(user.id);
+            return mono ? [mono] : [];
         } else if (params.monoHash) {
-            return await monoRepository.getByMonoHash(params.monoHash);
+            const mono = await monoRepository.getByHash(params.monoHash);
+            return mono ? [mono] : [];
         } else if (params.modelNumber) {
             const productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
-            return await monoRepository.getByMonoHash(productId);
+            const mono = await monoRepository.getByProductId(productId);
+            return mono ? [mono] : [];
         } else {
             return [];
         }
@@ -40,14 +43,12 @@ const monoService = {
             throw new errors.KairaiError(errors.ErrorTypes.MONO_NOT_FOUND); 
         }
         const productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
-        if (await dataSourceRepository.getByHash(productId.hash)) {
+        if (await dataSourceRepository.getByProductId(productId)) {
             throw new errors.KairaiError(errors.ErrorTypes.DATA_SOURCE_ALREADY_EXISTS); 
         }
         
         params['monoHash'] = monoHash;
-        const dataSource = await dataSourceRepository.create(params);
-        mono.addDataSource(dataSource);
-        return dataSource;
+        return await dataSourceRepository.create(params);
     },
 
     async getDataSources(monoHash) {

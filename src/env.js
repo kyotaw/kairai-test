@@ -27,15 +27,20 @@
     }
 
     Env.auth = {
-        hash: [
-            {
-                HASH_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 64,
-                SALT_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 16,
-                ITERATION: process.env.AUTH_HASH_ITERATION_V0 || 100000,
-                ALGO: process.env.AUTH_HASH_ALGO_V0 || 'sha512',
-                VERSION: process.env.AUTH_HASH_VERSION_V0 || 0
-            }
-        ],
+        hash: {
+            versions: [
+                {
+                    HASH_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 64,
+                    SALT_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 16,
+                    ITERATION: process.env.AUTH_HASH_ITERATION_V0 || 100000,
+                    ALGO: process.env.AUTH_HASH_ALGO_V0 || 'sha512',
+                    VERSION: process.env.AUTH_HASH_VERSION_V0 || 0
+                }
+            ],
+            get latestVersion() {
+                return Env.auth.hash.versions[Env.auth.hash.versions.length - 1];
+            } 
+        },
         accessToken: {
             JWT_KEY: process.env.AUTH_JWT_PUBLIC_KEY || settings.AUTH_JWT_PUBLIC_KEY || null,
             JWT_SECRET: process.env.AUTH_JWT_SECRET_KEY || settings.AUTH_JWT_SECRET_KEY || null,

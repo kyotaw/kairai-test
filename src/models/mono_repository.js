@@ -9,7 +9,7 @@ const MonoEntity = require('./entities/mono_entity').MonoEntity
 const monoRepository = {
 
     async create(params) {
-        const mono = factory.createFromDict(params);
+        const mono = await factory.createFromDict(params);
         let entity = await MonoEntity.create(mono.toDict());
         mono.id = entity.id;
         return mono;
@@ -31,14 +31,15 @@ const monoRepository = {
     },
 
     async getByProductId(productId) {
-        let query = {};
-        query.where = {};
-        query.where.modelNumber = productId.modelNumber;
-        query.where.serialNumber = productId.serialNumber;
-        query.where.vendorName = productId.vendorName;
+        const query = {
+            where: {
+                modelNumber: productId.modelNumber,
+                serialNumber: productId.serialNumber,
+                vendorName: productId.vendorName
+            }
+        };
         const entity = await MonoEntity.find(query);
         return await this._buildMono(entity); 
-         
     },
 
     async update(mono) {

@@ -13,7 +13,7 @@ const userService = {
             throw new errors.KairaiError(errors.ErrorTypes.USER_ALREADY_EXISTS);
         }
 
-        const latestHashEnv = hashEnv[hashEnv.length - 1];
+        const latestHashEnv = hashEnv.latestVersion;
         const salt = hash.randomBytes(latestHashEnv.SALT_LENGTH);
         params.password = await hash.pbkdf2(
             params.password,
