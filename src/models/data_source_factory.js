@@ -8,6 +8,7 @@ const DataSource = require('./data_source').DataSource
     , Camera = require('./camera').Camera
     , Barometer = require('./barometer').Barometer
     , PositioningSystem = require('./positioning_system').PositioningSystem
+    , BrainWaveSensor = require('./brainwave_sensor').BrainWaveSensor
     , GeoLocation = require('./geo_location').GeoLocation;
 
 const sources = {
@@ -15,6 +16,7 @@ const sources = {
     camera: Camera,
     barometer: Barometer,
     positioningSystem: PositioningSystem,
+    eegSensor: BrainWaveSensor,
 }
 
 const dataSourceFactory = {
