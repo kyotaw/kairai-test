@@ -27,6 +27,7 @@ import { AccelerometerComponent } from './sensor/accelerometer.component';
 import { CameraComponent } from './sensor/camera.component';
 import { BarometerComponent } from './sensor/barometer.component';
 import { PositioningSystemComponent } from './sensor/positioning-system.component';
+import { BrainwaveSensorComponent } from './sensor/brainwave-sensor.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { PositioningSystemComponent } from './sensor/positioning-system.componen
     CameraComponent,
     BarometerComponent,
     PositioningSystemComponent,
+    BrainwaveSensorComponent,
   ],
   imports: [
     BrowserModule,

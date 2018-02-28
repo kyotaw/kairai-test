@@ -16,7 +16,7 @@ const sources = {
     camera: Camera,
     barometer: Barometer,
     positioningSystem: PositioningSystem,
-    eegSensor: BrainWaveSensor,
+    brainwaveSensor: BrainWaveSensor,
 }
 
 const dataSourceFactory = {

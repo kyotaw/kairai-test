@@ -6,6 +6,7 @@ import { Accelerometer, AccelerometerSpec } from './accelerometer.model';
 import { Camera, CameraSpec } from './camera.model';
 import { Barometer, BarometerSpec } from './barometer.model';
 import { PositioningSystem, PositioningSystemSpec } from './positioning-system.model';
+import { BrainWaveSensor, BrainWaveSensorSpec} from './brainwave-sensor.model';
 
 const sensors = {
     accelerometer(productId: ProductId, name: string, status: SensorStatus, location: Location, data: any) {
@@ -41,7 +42,12 @@ const sensors = {
             data['methods'],
             data['maxAccuracy']);
         return new PositioningSystem(productId, name, location, status, spec);
-    }
+    },
+
+    brainwaveSensor(productId: ProductId, name: string, status: SensorStatus, location: Location, data: any) {
+        const spec = new BrainWaveSensorSpec(data['channels_10_20'], data['channels']);
+        return new BrainWaveSensor(productId, name, location, status, spec);
+    },
 }
 
 export class SensorFactory {
