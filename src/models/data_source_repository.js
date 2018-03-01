@@ -10,6 +10,9 @@ const dataSourceRepository = {
 
     async create(params) {
         let dataSource = await dataSourceFactory.createFromDict(params);
+        if (!dataSource) {
+            return null;
+        }
         let specEntity = null;
         if (dataSource.specEntity) {
             specEntity = await dataSource.specEntity.create(removeNull(dataSource.spec.toDict()));
