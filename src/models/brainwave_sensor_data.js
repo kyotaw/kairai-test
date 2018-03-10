@@ -3,7 +3,7 @@
 const Data = require('./data').Data
     , array = require('../helpers/array');
 
- class MindWaveSensorData extends Data {
+ class BrainWaveSensorData extends Data {
  
      constructor(params) {
         if (array.isArray(params)) {
@@ -12,7 +12,7 @@ const Data = require('./data').Data
             }
         }
         super(params);
-        this.samples = params.samples = [];
+        this.samples = params.samples || [];
      }
 
      toArray() {
@@ -20,4 +20,4 @@ const Data = require('./data').Data
      }
  }
 
-module.exports.MindWaveSensorData = MindWaveSensorData;
+module.exports.BrainWaveSensorData = BrainWaveSensorData;
