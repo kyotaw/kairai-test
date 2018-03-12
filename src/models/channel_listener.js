@@ -10,7 +10,7 @@ class ChannelListener {
         this.status = new ChannelMemberStatus();
         this._source = null;
         
-        this.conn.on('disconnect', reason => {
+        this.conn.onDisconnect(reason => {
             if (this._source) {
                 this._source.onListenerDisconnect(this);
             }
@@ -42,7 +42,7 @@ class ChannelListener {
     }
 
     recieve(data, source) {
-        this.conn.emit('data', data);
+        this.conn.sendData(data);
     }
 }
 

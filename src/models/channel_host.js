@@ -11,7 +11,7 @@ class ChannelHost {
         this.status = new ChannelMemberStatus();
         this._channel = null;
         
-        this.conn.on('disconnect', reason => {
+        this.conn.onDisconnect(reason => {
             if (this._channel) {
                 this.status.state = ChannelStates.OFFLINE;
                 console.log('State Offline')
@@ -32,9 +32,9 @@ class ChannelHost {
     }
 
     async start() {
-        this.conn.emit('start');
+        this.conn.sendMessage('start');
         this.status.state = ChannelStates.ACTIVE;
-        this.conn.on('data', data => {
+        this.conn.onData(data => {
             if (this._channel) {
                 data.location = data.location ||
                     this.dataSource.location ? this.dataSource.location.toDict() : null;

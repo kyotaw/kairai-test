@@ -1,8 +1,14 @@
 'use strict';
 
-class ChannelConnection {
+const { Writable } = require('stream');
+
+class ChannelConnection extends Writable {
     
     constructor(io, socket, ack) {
+        super({
+            highWaterMark: 128,
+            objectMode: true
+        });
         this.io = io;
         this.socket = socket;
         this.ack = ack;
@@ -14,13 +20,29 @@ class ChannelConnection {
         this.socket.disconnect(true);
     }
 
-    on(eventName, cb) {
-        this.socket.on(eventName, cb);
+    onDisconnect(cb) {
+        this.socket.on('disconnect', cb);
     }
 
-    emit(eventName, params, cb) {
-        this.socket.emit(eventName, params, cb);
+    onData(cb) {
+        this.socket.on('data', cb);
     }
+    
+    sendData(data) {
+        this.write(data);
+    }
+
+    sendMessage(msg, params, cb) {
+        this.socket.emit(msg, params, cb);
+    }
+
+    _write(chunk, encoding, cb) {
+        this.socket.emit('data', chunk);
+        cb();
+    }
+
 }
+
+
 
 module.exports.ChannelConnection = ChannelConnection;
