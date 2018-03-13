@@ -56,4 +56,8 @@
         }
     }
 
+    Env.channel = {
+        maxFps: process.env.CHANNEL_MAX_FPS || settings.CHANNEL_MAX_FPS || 500
+    }
+
 }(exports));

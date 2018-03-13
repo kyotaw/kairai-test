@@ -1,14 +1,8 @@
 'use strict';
 
-const { Writable } = require('stream');
-
-class ChannelConnection extends Writable {
+class ChannelConnection {
     
     constructor(io, socket, ack) {
-        super({
-            highWaterMark: 128,
-            objectMode: true
-        });
         this.io = io;
         this.socket = socket;
         this.ack = ack;
@@ -29,16 +23,11 @@ class ChannelConnection extends Writable {
     }
     
     sendData(data) {
-        this.write(data);
+        this.socket.emit('data', data);
     }
 
     sendMessage(msg, params, cb) {
         this.socket.emit(msg, params, cb);
-    }
-
-    _write(chunk, encoding, cb) {
-        this.socket.emit('data', chunk);
-        cb();
     }
 
 }

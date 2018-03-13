@@ -1,12 +1,14 @@
 'use strict';
 
 const ChannelMemberStatus = require('./channel_status').ChannelMemberStatus
-    , ChannelStates = require('./channel_status').ChannelStates;
+    , ChannelStates = require('./channel_status').ChannelStates
+    , ChannelValve = require('./channel_valve').ChannelValve;
 
 class ChannelListener {
 
     constructor(conn) {
         this.conn = conn;
+        this.valve = new ChannelValve(conn);
         this.status = new ChannelMemberStatus();
         this._source = null;
         
@@ -42,7 +44,7 @@ class ChannelListener {
     }
 
     recieve(data, source) {
-        this.conn.sendData(data);
+        this.valve.sendData(data);
     }
 }
 
