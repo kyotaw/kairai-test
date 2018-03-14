@@ -17,20 +17,24 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ClipboardModule } from 'ngx-clipboard';
 
-import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { KairaiApiService } from './services/kairai-api.service';
 import { SensorService } from './services/sensor.service';
 import { ChannelService } from './services/channel.service';
 
+import { AppComponent } from './app.component';
+import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { SensorComponent } from './sensor/sensor.component';
 import { AccelerometerComponent } from './sensor/accelerometer.component';
 import { CameraComponent } from './sensor/camera.component';
 import { BarometerComponent } from './sensor/barometer.component';
 import { PositioningSystemComponent } from './sensor/positioning-system.component';
 import { BrainwaveSensorComponent } from './sensor/brainwave-sensor.component';
+import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [
+    declarations: [
+    AppComponent,
     SensorListComponent,
     SensorComponent,
     AccelerometerComponent,
@@ -38,6 +42,7 @@ import { BrainwaveSensorComponent } from './sensor/brainwave-sensor.component';
     BarometerComponent,
     PositioningSystemComponent,
     BrainwaveSensorComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +59,7 @@ import { BrainwaveSensorComponent } from './sensor/brainwave-sensor.component';
     FlexLayoutModule,
     HttpClientModule,
     ClipboardModule,
+    AppRoutingModule,
   ],
   exports: [
   ],
@@ -62,6 +68,6 @@ import { BrainwaveSensorComponent } from './sensor/brainwave-sensor.component';
       KairaiApiService,
       ChannelService,
   ],
-  bootstrap: [SensorListComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
