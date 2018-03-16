@@ -1,3 +1,33 @@
-<p>
-  login works!
-</p>
+
+<div class="wrapper">
+  <div class="form-container">
+    <mat-form-field class="form-email">
+      <input matInput placeholder="Enter your email" [formControl]="email" required>
+      <mat-error *ngIf="email.invalid">{{emailErrorMessage}}</mat-error>
+    </mat-form-field>
+
+    <br/>
+
+    <mat-form-field class="form-password">
+      <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password.master" #master="ngModel" required>
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+    </mat-form-field>
+
+    <br *ngIf="isSignUp"/>
+
+    <mat-form-field *ngIf="isSignUp" class="form-confirm-password">
+      <input matInput placeholder="Confirm password" [type]="hide_confirm ? 'password' : 'text'" [(ngModel)]="password.confirm" #master="ngModel" (blur)="validatePassword()">
+      <mat-icon matSuffix (click)="hide_confirm=!hide_confirm">{{hide_confirm ? 'visibility' : 'visibility_off'}}</mat-icon>
+    </mat-form-field>
+    <span *ngIf="isSignUp && hasPassowrdDoNotMatchError" class="error-msg">{{passwordDoNotMatchMessage}}</span>
+
+    <div *ngIf="!isSignUp">
+      <button [disabled]="loading" class="btn button-login" mat-button (click)="login()">LOG IN</button>
+      <a class="btn btn-link" (click)="isSignUp=true">SIGN UP</a>
+    </div>
+
+    <div *ngIf="isSignUp">
+      <button [disabled]="loading" class="btn button-signup" mat-button (click)="signUp()">SIGN UP</button>
+    </div>
+  </div>
+</div>

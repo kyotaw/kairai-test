@@ -3,7 +3,9 @@
 const userRepository = require('../models/user_repository')
     , errors = require('../errors')
     , hashEnv = require('../env').auth.hash
-    , hash = require('../helpers/hash');
+    , cryptEnv = require('../env').auth.crypt
+    , hash = require('../helpers/hash')
+    , { encrypt, decrypt } = require('../helpers/crypt');
 
 const userService = {
 
@@ -15,6 +17,7 @@ const userService = {
 
         const latestHashEnv = hashEnv.latestVersion;
         const salt = hash.randomBytes(latestHashEnv.SALT_LENGTH);
+        params.email = encrypt(params.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
         params.password = await hash.pbkdf2(
             params.password,
             salt,
@@ -37,17 +40,26 @@ const userService = {
     },
 
     async getById(id) {
-        return await userRepository.getById(id);
+        let user = await userRepository.getById(id);
+        return this._decrypt_email(user);
     },
     
     async getByUserId(userId) {
-        return await userRepository.getUserById(userId);
+        let user = await userRepository.getUserById(userId);
+        return this._decrypt_email(user);
     },
 
     async getBySocialId(socialUserId, loginSystem) {
-        return await userRepository.getBySocialId(socialUserId, loginSystem);
-    }
+        let user = await userRepository.getBySocialId(socialUserId, loginSystem);
+        return this._decrypt_email(user);
+    },
 
+    _decrypt_email(user) {
+        if (user.email) {
+            user.email = decrypt(user.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
+        }
+        return user;
+    }
 }
 
 module.exports = userService;

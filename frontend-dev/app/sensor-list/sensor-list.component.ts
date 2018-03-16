@@ -7,7 +7,7 @@ import { KairaiApiService } from '../services/kairai-api.service';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-senser-list',
   templateUrl: './sensor-list.component.html',
   styleUrls: ['./sensor-list.component.css']
 })

@@ -6,20 +6,24 @@ import {
     MatCheckboxModule,
     MatCardModule,
     MatDividerModule,
+    MatIconModule,
     MatTooltipModule,
     MatGridListModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatInputModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout'; 
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { KairaiApiService } from './services/kairai-api.service';
 import { SensorService } from './services/sensor.service';
 import { ChannelService } from './services/channel.service';
+import { AuthService } from './services/auth.service';
 
 import { AppComponent } from './app.component';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
@@ -34,32 +38,36 @@ import { LoginComponent } from './login/login.component';
 
 @NgModule({
     declarations: [
-    AppComponent,
-    SensorListComponent,
-    SensorComponent,
-    AccelerometerComponent,
-    CameraComponent,
-    BarometerComponent,
-    PositioningSystemComponent,
-    BrainwaveSensorComponent,
-    LoginComponent,
+        AppComponent,
+        SensorListComponent,
+        SensorComponent,
+        AccelerometerComponent,
+        CameraComponent,
+        BarometerComponent,
+        PositioningSystemComponent,
+        BrainwaveSensorComponent,
+        LoginComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatCardModule,
-    MatDividerModule,
-    MatTooltipModule,
-    MatGridListModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    FlexLayoutModule,
-    HttpClientModule,
-    ClipboardModule,
-    AppRoutingModule,
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatCardModule,
+        MatDividerModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatGridListModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatInputModule,
+        FlexLayoutModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule, 
+        ClipboardModule,
+        AppRoutingModule,
   ],
   exports: [
   ],
@@ -67,6 +75,7 @@ import { LoginComponent } from './login/login.component';
       SensorService,
       KairaiApiService,
       ChannelService,
+      AuthService,
   ],
   bootstrap: [AppComponent]
 })

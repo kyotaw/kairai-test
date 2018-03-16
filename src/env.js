@@ -41,6 +41,10 @@
                 return Env.auth.hash.versions[Env.auth.hash.versions.length - 1];
             } 
         },
+        crypt: {
+            AUTH_CRYPT_KEY: process.env.AUTH_CRYPT_KEY || settings.AUTH_CRYPT_KEY || null,
+            AUTH_CRYPT_ALGO: process.env.AUTH_CRYPT_ALGO || settings.AUTH_CRYPT_ALGO || null,
+        },
         accessToken: {
             JWT_KEY: process.env.AUTH_JWT_PUBLIC_KEY || settings.AUTH_JWT_PUBLIC_KEY || null,
             JWT_SECRET: process.env.AUTH_JWT_SECRET_KEY || settings.AUTH_JWT_SECRET_KEY || null,
