@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
@@ -23,12 +23,26 @@ export class KairaiApiService {
         return this._get(url);
     }
 
+    createUser(email: string, password: string) {
+        const url = this.baseUrl + 'users';
+        return this.http.post(url, {email: email, password: password});
+    }
+
+    login(email: string, password: string) {
+        const url = this.baseUrl + 'auth/login';
+        return this._get(url, {email: email, password: password});
+    }
+
     socialLogin(socialSystem: string) {
     const url = 'https://kairai.herokuapp.com/api/auth/' + socialSystem + '/login';
         return this._get(url);
     }
 
-    _get(url): Observable<Object> {
-        return this.http.get(url, { withCredentials:true });
+    _get(url, params={}): Observable<Object> {
+        const options = {
+            params: params,
+            withCredentials: true
+        }
+        return this.http.get(url, options);
     }
 }

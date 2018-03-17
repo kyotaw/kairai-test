@@ -23,7 +23,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { KairaiApiService } from './services/kairai-api.service';
 import { SensorService } from './services/sensor.service';
 import { ChannelService } from './services/channel.service';
-import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 
 import { AppComponent } from './app.component';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
@@ -35,6 +35,7 @@ import { PositioningSystemComponent } from './sensor/positioning-system.componen
 import { BrainwaveSensorComponent } from './sensor/brainwave-sensor.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import { LoginComponent } from './login/login.component';
         PositioningSystemComponent,
         BrainwaveSensorComponent,
         LoginComponent,
+        SignupComponent,
   ],
     imports: [
         BrowserModule,
@@ -75,7 +77,7 @@ import { LoginComponent } from './login/login.component';
       SensorService,
       KairaiApiService,
       ChannelService,
-      AuthService,
+      UserService,
   ],
   bootstrap: [AppComponent]
 })

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 
-import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
     selector: 'app-login',
@@ -10,54 +10,45 @@ import { AuthService } from '../services/auth.service';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    loading = false;
-    returnUrl: string;
 
     email = new FormControl('', [Validators.required, Validators.email]);
-    password: any = {};
+    password: string;
+    errorMessage: string = ' ';
 
     hide = true;
     hide_confirm = true;
-    isSignUp = false;
-    hasPassowrdDoNotMatchError = false;
+    loading = false;
 
     constructor(
-        private authService: AuthService,
+        private userService: UserService,
         private route: ActivatedRoute,
         private router: Router) {
     }
 
     ngOnInit() {
         // reset login status
-        this.authService.logout();
-
-        // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.userService.logout();
     }
 
     login() {
+        if (this.email.invalid || !this.password) {
+            return;
+        }
         this.loading = true;
-        this.authService.login(this.credentials.username, this.credentials.password)
-            .subscribe(
-                data => {
-                this.router.navigate([this.returnUrl]);
+        this.userService.login(this.email.value, this.password)
+            .subscribe(user => {
+                this.router.navigateByUrl('/');
             },
             error => {
+                this.errorMessage = 'Authentication failed'
                 this.loading = false;
             });
     }
 
-    validatePassword() {
-        this.hasPassowrdDoNotMatchError = this.password.master != this.password.confirm;
-    }
 
     get emailErrorMessage() {
         return this.email.hasError('required') ? 'You must enter a value' :
             this.email.hasError('email') ? 'Not a valid email' : '';
-    }
-
-    get passwordDoNotMatchMessage() {
-        return "Password do not match";
     }
 
 }
