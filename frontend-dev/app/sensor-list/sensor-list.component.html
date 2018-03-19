@@ -1,16 +1,36 @@
-
- <span>environment: {{environment}}, {{activeSensors}} active and {{readySensors}} ready sensors</span>
-
-<mat-sidenav-container>
-  <mat-sidenav opened mode="side" color="primary">
-  </mat-sidenav>
-  <mat-sidenav-content class="basic-container">
+<mat-drawer-container>
+  <mat-drawer mode="side" opened="true">
+    <div class="sidenav-wrapper">
+      <div class="sidenav-item">
+        <a class="category" (click)="selectAll()">All ({{allSensorCount}})</a>
+      </div>
+      <div class="sidenav-item">
+        <a class="category" (click)="selectActiveSensors()">Active sensors ({{activeSensorCount}})</a>
+      </div>
+      <div class="sidenav-item">
+        <a class="category" (click)="selectReadySensors()">Ready sensors ({{readySensorCount}})</a>
+      </div>
+      <br/>
+      <mat-divider></mat-divider>
+      <br/>
+      <div class="sidenav-item" *ngFor="let category of categories">
+        <a class="category" (click)="selectCategory(category)">{{category.type}} ({{category.sensors.length}})</a>
+      </div>
+      <br/>
+      <mat-divider></mat-divider>
+      <br/>
+      <div class="sidenav-item" *ngFor="let device of devices">
+        <a class="category" (click)="selectDevice(device)">{{device.name}} ({{device.sensors.length}})</a>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content class="basic-container">
     <div fxLayoutWrap fxLayoutGap="10px">
-      <div fxFlex="22" fxFlex.sm="33.3" fxFlex.xs="50" *ngFor="let sensor of sensors">
+      <div fxFlex="22" fxFlex.sm="33.3" fxFlex.xs="50" *ngFor="let sensor of selectedSensors">
           <app-sensor [sensor]="sensor">
           </app-sensor>
           <br/>
       </div>
     </div>
-  </mat-sidenav-content>
-<mat-sidenav-container>
+  </mat-drawer-content>
+<mat-drawer-container>

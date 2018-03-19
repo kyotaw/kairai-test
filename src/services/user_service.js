@@ -10,14 +10,19 @@ const userRepository = require('../models/user_repository')
 const userService = {
 
     async createProprietaryUser(params) {
-        const user = await userRepository.getByUserId(params.userId);
+        if (!params.email || !params.password) {
+            throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
+        }
+        const encryptedEmail = encrypt(params.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
+        const user = await userRepository.getByEmail(encryptedEmail);
         if (user) {
             throw new errors.KairaiError(errors.ErrorTypes.USER_ALREADY_EXISTS);
         }
 
         const latestHashEnv = hashEnv.latestVersion;
         const salt = hash.randomBytes(latestHashEnv.SALT_LENGTH);
-        params.email = encrypt(params.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
+        params.email = encryptedEmail;
+        params.userId = encryptedEmail;
         params.password = await hash.pbkdf2(
             params.password,
             salt,
@@ -45,7 +50,7 @@ const userService = {
     },
     
     async getByUserId(userId) {
-        let user = await userRepository.getUserById(userId);
+        let user = await userRepository.getByUserId(userId);
         return this._decrypt_email(user);
     },
 

@@ -1,9 +1,9 @@
 'use strict';
 
 function userResponse(user) {
-    let params = user.toDict();
-    delete params['password'];
-    delete params['salt'];
+    let params = {
+        email: user.email
+    }
     return params;
 }
 

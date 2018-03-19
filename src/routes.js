@@ -27,26 +27,26 @@ function routes() {
     router.post(users, userController.create);
 
     // require authentication    
-    //router.use(authFilter.authenticateWithJwt());
+    const authenticate = authFilter.authenticateWithJwt();
 
     // monos
     const monos = root + 'monos/';
-    router.get(monos, monoFilter.validate_get, monoControlelr.get);
-    router.post(monos, monoFilter.validate_create, monoControlelr.create);
+    router.get(monos, authenticate, monoControlelr.get);
+    router.post(monos, authenticate, monoControlelr.create);
     
     // monos/data sources
     const mono_dataSources = monos + ':monoHash/data_sources';
-    router.get(mono_dataSources, monoControlelr.getDataSources);
-    router.post(mono_dataSources, monoControlelr.addDataSource);
+    router.get(mono_dataSources, authenticate, monoControlelr.getDataSources);
+    router.post(mono_dataSources, authenticate, monoControlelr.addDataSource);
 
     // datasources
     const dataSources = root + 'data_sources/';
-    router.get(dataSources, dataSourceController.get);
-    router.delete(dataSources + ':hash', dataSourceController.delete);
+    router.get(dataSources, authenticate, dataSourceController.get);
+    router.delete(dataSources + ':hash', authenticate, dataSourceController.delete);
 
     // channels
     const channels = root + 'channels/';
-    router.get(channels + ':channelId', channelController.getState);
+    router.get(channels + ':channelId', authenticate, channelController.getState);
 
     // error
     router.use((err, req, res, next) => {

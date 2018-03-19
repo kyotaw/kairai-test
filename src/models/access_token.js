@@ -12,7 +12,7 @@ class AccessToken {
                 expiresIn: env.auth.accessToken.JWT_EXPIRES_IN,
                 audience: env.auth.accessToken.JWT_AUDIENCE,
                 issuer: env.auth.accessToken.JWT_ISSURE,
-                subject: user.id.toString(),
+                subject: user.userId.toString(),
             }
         );
     }

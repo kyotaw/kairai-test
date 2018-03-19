@@ -24,11 +24,17 @@ export class SensorComponent implements OnInit {
     constructor(private readonly channelService: ChannelService) {}
 
     ngOnInit() {
+        /*
         Observable.interval(5000)
             .subscribe(() => this.channelService.getChannel(this.sensor).subscribe(channel => {
                 this.channel = channel;
                 this.sensor.status = channel.status;
             }));
+        */
+        this.channelService.getChannel(this.sensor).subscribe(channel => {
+            this.channel = channel;
+            this.sensor.status = channel.status;
+        });
     }
 
     get sensorName() {

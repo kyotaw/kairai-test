@@ -4,14 +4,17 @@ const AccessToken = require('../models/access_token').AccessToken
     , userRepository = require('../models/user_repository')
     , errors = require('../errors')
     , hashEnv = require('../env').auth.hash
-    , hash = require('../helpers/hash');
+    , cryptEnv = require('../env').auth.crypt
+    , hash = require('../helpers/hash')
+    , encrypt = require('../helpers/crypt').encrypt;
 
 const authService = {
 
-    async login(userId, password) {
-        const user = await userRepository.getByUserId(userId);
+    async login(email, password) {
+        const encryptedEmail = encrypt(email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
+        const user = await userRepository.getByEmail(encryptedEmail);
         if (!user) {
-            throw new errors.KairaiError(errors.ErrorTypes.USER_NOT_EXIST);
+            throw new errors.KairaiError(errors.ErrorTypes.USER_NOT_FOUND);
         }
         const hashedPass = await hash.pbkdf2(
             password,

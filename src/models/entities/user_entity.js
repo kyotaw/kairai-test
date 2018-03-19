@@ -10,7 +10,7 @@ const schema = {
         socialUserId: { type: db.Sequelize.STRING, allowNull: true },
         password: { type: db.Sequelize.STRING, allowNull: true },
         email: { type: db.Sequelize.TEXT, isEmail: true, allowNull: true, unique: true },
-        name: { type: db.Sequelize.STRING, allowNull: false },
+        name: { type: db.Sequelize.STRING, allowNull: false, defaultValue: 'user' },
         salt: { type: db.Sequelize.TEXT, isEmail: true, allowNull: false},
         hashVersion: { type: db.Sequelize.INTEGER, allowNull: false},
         loginSystem: { type: db.Sequelize.STRING, allowNull: false },

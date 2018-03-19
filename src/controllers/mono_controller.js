@@ -22,7 +22,7 @@ const monoControlelr = {
     },
 
     get(req, res) {
-        monoService.getMonos(req.query).then((monos) => {
+        monoService.getMonos(req.user, req.query).then((monos) => {
             shortcut.successResponse(res, monoResponse.monosResponse(monos)); 
         }, (err) => {
             if (err.errorType === errorTypes.MONO_NOT_FOUND) {

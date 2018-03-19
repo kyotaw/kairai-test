@@ -20,6 +20,16 @@ async function start() {
     app.use(passport.initialize());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
+    app.use((req, res, next) => {
+        if (req.query) {
+            let decoded = {};
+            for (let key in req.query) {
+                decoded[decodeURIComponent(key)] = decodeURIComponent(req.query[key]);
+            }
+            req.query = decoded;
+        }
+        next();
+    });
 
     // site
     app.use(cookieParser());

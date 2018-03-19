@@ -15,7 +15,7 @@ import {
     MatInputModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout'; 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ClipboardModule } from 'ngx-clipboard';
@@ -24,6 +24,8 @@ import { KairaiApiService } from './services/kairai-api.service';
 import { SensorService } from './services/sensor.service';
 import { ChannelService } from './services/channel.service';
 import { UserService } from './services/user.service';
+
+import { JwtIterceptor } from './interceptors/jwt.interceptor';
 
 import { AppComponent } from './app.component';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
@@ -36,6 +38,7 @@ import { BrainwaveSensorComponent } from './sensor/brainwave-sensor.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +52,7 @@ import { SignupComponent } from './signup/signup.component';
         BrainwaveSensorComponent,
         LoginComponent,
         SignupComponent,
+        MainToolbarComponent,
   ],
     imports: [
         BrowserModule,
@@ -78,6 +82,11 @@ import { SignupComponent } from './signup/signup.component';
       KairaiApiService,
       ChannelService,
       UserService,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: JwtIterceptor,
+        multi: true
+      }
   ],
   bootstrap: [AppComponent]
 })

@@ -15,7 +15,7 @@ const jwtOptions = {
 }
 
 passport.use(new jwt.Strategy(jwtOptions, (payload, done) => {
-    userService.getById(parseInt(payload.sub)).then(user => {
+    userService.getByUserId(payload.sub).then(user => {
         if (user) {
             done(null, user, payload);
         } else {

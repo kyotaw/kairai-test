@@ -11,7 +11,8 @@ const userController = {
         userService.createProprietaryUser(req.body).then(user => {
             shortcut.successResponse(res, userResponse.userResponse(user));
         }).catch (err => {
-            if (err.errorType === errors.ErrorTypes.USER_ALREADY_EXISTS) {
+            if (err.errorType === errors.ErrorTypes.USER_ALREADY_EXISTS ||
+                err.errorType === errors.ErrorTypes.INVALID_PARAMETERS) {
                 res.status(400);
                 shortcut.errorResponse(res, err);
             } else {

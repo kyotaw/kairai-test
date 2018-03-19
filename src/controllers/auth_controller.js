@@ -8,10 +8,11 @@ const authService = require('../services/auth_service')
 const authController = {
 
     login(req, res) {
-        authService.login(req.query.userId, req.query.password).then(accessToken => {
+        authService.login(req.query.email, req.query.password).then(accessToken => {
             shortcut.successResponse(res, authResponse.loginResponse(req.query.userId, accessToken));
         }).catch (err => {
-            if (err.errorType === errors.ErrorTypes.AUTH_PASSWORD_DONOT_MATCH) {
+            if (err.errorType === errors.ErrorTypes.AUTH_PASSWORD_DONOT_MATCH ||
+                err.errorType === errors.ErrorTypes.USER_NOT_FOUND) {
                 res.status(400);
                 shortcut.errorResponse(res, err);
             } else {

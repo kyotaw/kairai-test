@@ -5,7 +5,9 @@ import 'rxjs/add/operator/map';
 
 import { KairaiApiService} from './kairai-api.service';
 import { Sensor } from '../models/sensor.model';
-import { SensorFactory } from '../models/sensor.factory';
+import { Device } from '../models/device.model';
+import { SensorFactory } from '../models/sensor-factory.model';
+import { DeviceFactory } from '../models/device-factory.model';
 import { ProductId } from '../models/product-id.model';
 
 @Injectable()
@@ -16,13 +18,26 @@ export class SensorService {
     getSensors(): Observable<Sensor[]> {
         return this.karaiApi.getDataSources().map(json => {
             let sensors: Sensor[] = [];
+                for (let data of json['data']) {
+                    const sensor = SensorFactory.create(data);
+                    if (sensor) {
+                        sensors.push(sensor);
+                    }
+                }
+            return sensors;
+        });
+    }
+
+    getDevices(): Observable<Device[]> {
+        return this.karaiApi.getMonos().map(json => {
+            let devices: Device[] = [];
             for (let data of json['data']) {
-                const sensor = SensorFactory.create(data);
-                if (sensor) {
-                    sensors.push(sensor);
+                const device = DeviceFactory.create(data);
+                if (device) {
+                    devices.push(device);
                 }
             }
-            return sensors;
+            return devices;
         });
     }
 

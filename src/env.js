@@ -50,7 +50,7 @@
             JWT_SECRET: process.env.AUTH_JWT_SECRET_KEY || settings.AUTH_JWT_SECRET_KEY || null,
             JWT_ISSURE: process.env.AUTH_JWT_ISSURE || settings.AUTH_JWT_ISSURE || null,
             JWT_AUDIENCE: process.env.AUTH_JWT_AUDIENCE || settings.AUTH_JWT_AUDIENCE || null,
-            JWT_EXPIRES_IN: process.env.AUTH_JWT_EXPIRES_IN || settings.AUTH_JWT_EXPIRES_IN || '1 hour',
+            JWT_EXPIRES_IN: process.env.AUTH_JWT_EXPIRES_IN || settings.AUTH_JWT_EXPIRES_IN || '5 hour',
         },
         google: {
             CLIENT_ID: process.env.GOOGLE_AUTH_CLIENT_ID || settings.GOOGLE_AUTH_CLIENT_ID || '',

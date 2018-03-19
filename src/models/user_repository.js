@@ -10,6 +10,11 @@ const userRepository = {
         return new User(params);
     },
 
+    async getByEmail(email) {
+        const entity = await UserEntity.find({where: {email: email}});
+        return entity ? new User(entity) : null;
+    },
+
     async getById(id) {
         const entity = await UserEntity.find({where: {id: id}});
         return entity ? new User(entity) : null;

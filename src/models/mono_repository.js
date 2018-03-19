@@ -25,20 +25,28 @@ const monoRepository = {
         return monos;
     },
 
-    async getByHash(hash) {
-        const entity = await MonoEntity.find({where: {hash: hash}});
+    async getByHash(hash, userId) {
+        let query = { hash: hash };
+        if (userId) {
+            query.ownerId = userId
+        }
+        const entity = await MonoEntity.find({where: query});
+        if (!entity) {
+            return null;
+        }
         return await this._buildMono(entity); 
     },
 
-    async getByProductId(productId) {
-        const query = {
-            where: {
-                modelNumber: productId.modelNumber,
-                serialNumber: productId.serialNumber,
-                vendorName: productId.vendorName
-            }
-        };
-        const entity = await MonoEntity.find(query);
+    async getByProductId(productId, userId) {
+        let query = {
+            modelNumber: productId.modelNumber,
+            serialNumber: productId.serialNumber,
+            vendorName: productId.vendorName
+        }
+        if (userId) {
+            query.ownerId= userId
+        }
+        const entity = await MonoEntity.find({where: query});
         return await this._buildMono(entity); 
     },
 

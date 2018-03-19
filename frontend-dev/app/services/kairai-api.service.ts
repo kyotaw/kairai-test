@@ -13,6 +13,11 @@ export class KairaiApiService {
 
     constructor(private http: HttpClient) {}
 
+    getMonos(): Observable<Object> {
+        const url = this.baseUrl + 'monos';
+        return this._get(url);
+    }
+
     getDataSources(): Observable<Object> {
         const url = this.baseUrl + 'data_sources';
         return this._get(url);
@@ -30,7 +35,7 @@ export class KairaiApiService {
 
     login(email: string, password: string) {
         const url = this.baseUrl + 'auth/login';
-        return this._get(url, {email: email, password: password});
+        return this._get(url, {email: encodeURIComponent(email), password: encodeURIComponent(password)});
     }
 
     socialLogin(socialSystem: string) {

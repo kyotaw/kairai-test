@@ -18,23 +18,16 @@ const monoService = {
         return await monoRepository.create(params);
     },
 
-    async getMonos(params) {
-        if (params.userId) {
-            const user = await userRepository.getByUserId(params.userId);
-            if (!user) {
-                return [];
-            }
-            const mono = await monoRepository.getByUserId(user.id);
+    async getMonos(user, query) {
+        if (query.monoHash) {
+            const mono = await monoRepository.getByHash(query.monoHash, user.userId);
             return mono ? [mono] : [];
-        } else if (params.monoHash) {
-            const mono = await monoRepository.getByHash(params.monoHash);
-            return mono ? [mono] : [];
-        } else if (params.modelNumber) {
-            const productId = new ProductId(params.modelNumber, params.serialNumber, params.vendorName);
-            const mono = await monoRepository.getByProductId(productId);
+        } else if (query.modelNumber) {
+            const productId = new ProductId(query.modelNumber, query.serialNumber, query.vendorName);
+            const mono = await monoRepository.getByProductId(productId, user.userId);
             return mono ? [mono] : [];
         } else {
-            return [];
+            return await monoRepository.getByUserId(user.userId);
         }
     },
 
