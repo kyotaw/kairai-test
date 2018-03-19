@@ -12,6 +12,7 @@ function encrypt(text, key, algo) {
 function decrypt(encryptedText, key, algo) {
     let decipher = crypto.createDecipher(algo, key);
     decipher.update(encryptedText, 'hex', 'utf8');
+    decipher.setAutoPadding(false);
     return decipher.final('utf8');
 }
 

@@ -11,6 +11,7 @@ const express = require('express')
   , ip = require('./helpers/ip')
   , db = require('./infrastructures/db')
   , cors = require('./middlewares/cors.js')
+  , decodeQuery = require('./middlewares/query_decoder.js').decodeQuery
   , routes = require('./routes')
   , routes_ws = require('./routes_ws');
 
@@ -20,16 +21,7 @@ async function start() {
     app.use(passport.initialize());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
-    app.use((req, res, next) => {
-        if (req.query) {
-            let decoded = {};
-            for (let key in req.query) {
-                decoded[decodeURIComponent(key)] = decodeURIComponent(req.query[key]);
-            }
-            req.query = decoded;
-        }
-        next();
-    });
+    app.use(decodeQuery);
 
     // site
     app.use(cookieParser());
