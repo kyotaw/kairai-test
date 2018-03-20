@@ -16,12 +16,3 @@ ul {
   font-weight: 700!important;
 }
 
-.basic-container {
-  padding: 10px;
-  padding-left: 20px;
-}
-
-mat-sidenav {
-  margin-left: 10px;
-  margin-top: 10px;
-}

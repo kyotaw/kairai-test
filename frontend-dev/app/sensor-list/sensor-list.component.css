@@ -1,5 +1,4 @@
 .sidenav-wrapper {
-  min-width: 200px;
   margin: 0 auto;
   margin-top: 10px;
 }
@@ -7,12 +6,24 @@
 .sidenav-item {
 }
 
+.basic-container {
+  padding: 10px;
+  padding-left: 40px;
+  height: 100%;
+}
+
 mat-drawer-container {
-  min-height: 300px;
+  position: fixed;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
 }
 
 mat-drawer {
-  min-height: 300px;
+}
+
+mat-drawer-content {
 }
 
 a.category {
