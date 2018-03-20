@@ -3,7 +3,9 @@
 const authService = require('../services/auth_service')
     , authResponse = require('./auth_response')
     , shortcut = require('./response_shortcuts')
-    , errors = require('../errors');
+    , errors = require('../errors')
+    , jwtOptions = require('../middlewares/auth_filter').jwtOptions
+    , jwt = require('passport-jwt');
 
 const authController = {
 
@@ -19,6 +21,17 @@ const authController = {
                 shortcut.error500Response(res, err);
             }
         });
+    },
+
+    loggedIn(req, res) {
+        jwt.Strategy.JwtVerifier(
+            req.query.accessToken,
+            jwtOptions.secretOrKey,
+            jwtOptions,
+            (err, payload) => {
+                const isLoggedIn = err ? false : true;
+                shortcut.successResponse(res, authResponse.loggedInResponse(isLoggedIn));
+            });
     }
 }
 

@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
         this.userService.login(this.email.value, this.password)
             .subscribe(user => {
                 this.router.navigateByUrl('/sensors');
+                this.loading = false;
             },
             error => {
                 this.errorMessage = 'Authentication failed'

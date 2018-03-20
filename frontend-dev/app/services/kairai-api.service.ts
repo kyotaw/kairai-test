@@ -38,6 +38,11 @@ export class KairaiApiService {
         return this._get(url, {email: encodeURIComponent(email), password: encodeURIComponent(password)});
     }
 
+    isLoggedIn(accessToken: string) {
+        const url = this.baseUrl + 'auth/loggedin';
+        return this._get(url, { accessToken: accessToken });
+    }
+
     socialLogin(socialSystem: string) {
     const url = 'https://kairai.herokuapp.com/api/auth/' + socialSystem + '/login';
         return this._get(url);

@@ -26,6 +26,7 @@ import { ChannelService } from './services/channel.service';
 import { UserService } from './services/user.service';
 
 import { JwtIterceptor } from './interceptors/jwt.interceptor';
+import { CanActivateViaAuthGuardInterceptor } from './interceptors/can-activate-via-auth-guard.interceptor';
 
 import { AppComponent } from './app.component';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
@@ -86,7 +87,8 @@ import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
         provide: HTTP_INTERCEPTORS,
         useClass: JwtIterceptor,
         multi: true
-      }
+      },
+      CanActivateViaAuthGuardInterceptor,
   ],
   bootstrap: [AppComponent]
 })

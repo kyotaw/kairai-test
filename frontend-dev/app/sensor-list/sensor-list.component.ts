@@ -76,7 +76,7 @@ export class SensorListComponent implements OnInit {
         this.selectedSensors = this._getReadySensors();
     }
 
-    selectCategory(category: Category) {
+    selectCategory(category: SensorCategory) {
         this.selectedSensors = category.sensors;
     }
 

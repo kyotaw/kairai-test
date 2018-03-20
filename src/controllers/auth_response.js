@@ -6,6 +6,13 @@ function loginResponse(userId, accessToken) {
     return data;
 }
 
+function loggedInResponse(loggedIn) {
+    return {
+        loggedIn: loggedIn
+    }
+}
+
 module.exports = {
     loginResponse: loginResponse,
+    loggedInResponse: loggedInResponse,
 }

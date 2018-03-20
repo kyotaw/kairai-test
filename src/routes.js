@@ -15,19 +15,20 @@ const Router = require('express').Router
 function routes() {
     const root = '/api/';
     let router = Router();
+    
+    // require authentication    
+    const authenticate = authFilter.authenticateWithJwt();
 
     // auth
     const auth = root + 'auth/';
     router.get(auth + 'login/', authController.login);
+    router.get(auth + 'loggedin/', authController.loggedIn);
     //router.get(auth + 'google/login', socialLogin.authenticateByGoogle());
     //router.get(auth + 'google/callback', socialLogin.callbackFromGoogle(), siteController.loggedin);
     
     // users
     const users = root + 'users/';
     router.post(users, userController.create);
-
-    // require authentication    
-    const authenticate = authFilter.authenticateWithJwt();
 
     // monos
     const monos = root + 'monos/';

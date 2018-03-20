@@ -65,4 +65,5 @@ module.exports = {
     authenticateWithJwt: authenticateWithJwt,
     authenticateByGoogle: authenticateByGoogle,
     callbackFromGoogle: callbackFromGoogle,
+    jwtOptions: jwtOptions,
 }
