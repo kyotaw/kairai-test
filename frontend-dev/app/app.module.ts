@@ -40,6 +40,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
     declarations: [
@@ -54,6 +56,8 @@ import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
         LoginComponent,
         SignupComponent,
         MainToolbarComponent,
+        ProfileComponent,
+        ChangePasswordComponent,
   ],
     imports: [
         BrowserModule,

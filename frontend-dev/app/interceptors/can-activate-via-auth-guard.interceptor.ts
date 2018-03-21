@@ -18,6 +18,7 @@ export class CanActivateViaAuthGuardInterceptor implements CanActivate {
         return new Promise<boolean>((resolve, reject) => {
             const user = this.userService.getUser();
             if (!user) {
+                this.userService.logout();
                 this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
                 resolve(false);
                 return;

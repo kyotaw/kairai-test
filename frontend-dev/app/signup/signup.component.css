@@ -12,12 +12,8 @@
   max-width: 500px;
 }
 
-.form-email {
-  width: 100%;
-}
-
-.form-password {
-  width: 100%;
+.form-item {
+  margin-top: 20px;
 }
 
 .button-signup {
@@ -29,11 +25,5 @@
 .inline-error-msg {
   margin-top: 0;
   text-align: left;
-  color: red;
-}
-
-.error-msg {
-  margin-top: 20px;
-  text-align: center;
   color: red;
 }

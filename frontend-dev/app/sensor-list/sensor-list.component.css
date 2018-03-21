@@ -13,17 +13,20 @@
 }
 
 mat-drawer-container {
-  position: fixed;
-  height: 100%;
-  min-height: 100%;
-  width: 100%;
-  min-width: 100%;
+  position: relative;
+#  height: 100%;
+#  min-height: 100%;
+#  width: 100%;
+#  min-width: 100%;
 }
 
 mat-drawer {
+  position: fixed;
+  top: 128px;
 }
 
 mat-drawer-content {
+  min-height: 100%;
 }
 
 a.category {

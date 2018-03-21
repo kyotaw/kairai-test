@@ -16,13 +16,9 @@ const authService = {
         if (!user) {
             throw new errors.KairaiError(errors.ErrorTypes.USER_NOT_FOUND);
         }
-        const hashedPass = await hash.pbkdf2(
-            password,
-            user.salt,
-            hashEnv.versions[user.hashVersion].ITERATION,
-            hashEnv.versions[user.hashVersion].HASH_LENGTH,
-            hashEnv.versions[user.hashVersion].ALGO);
-        if (user.password !== hashedPass) {
+
+        const passMatch = await user.comparePassword(password);
+        if (!passMatch) {
             throw new errors.KairaiError(errors.ErrorTypes.PASSWORD_DONOT_MATCH);
         }
         return this.generateAccessToken(user);

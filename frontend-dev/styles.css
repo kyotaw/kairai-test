@@ -16,3 +16,12 @@ ul {
   font-weight: 700!important;
 }
 
+.page-title {
+  text-align: center;
+}
+
+.error-msg {
+  margin-top: 20px;
+  text-align: center;
+  color: red;
+}

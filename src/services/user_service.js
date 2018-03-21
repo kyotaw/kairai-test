@@ -2,7 +2,7 @@
 
 const userRepository = require('../models/user_repository')
     , errors = require('../errors')
-    , hashEnv = require('../env').auth.hash
+    , User = require('../models/user').User
     , cryptEnv = require('../env').auth.crypt
     , hash = require('../helpers/hash')
     , { encrypt, decrypt } = require('../helpers/crypt');
@@ -19,20 +19,13 @@ const userService = {
             throw new errors.KairaiError(errors.ErrorTypes.USER_ALREADY_EXISTS);
         }
 
-        const latestHashEnv = hashEnv.latestVersion;
-        const salt = hash.randomBytes(latestHashEnv.SALT_LENGTH);
         params.email = encryptedEmail;
-        params.userId = encryptedEmail;
-        params.password = await hash.pbkdf2(
-            params.password,
-            salt,
-            latestHashEnv.ITERATION,
-            latestHashEnv.HASH_LENGTH,
-            latestHashEnv.ALGO);
-        params.salt = salt;
+        params.userId = hash.randomBytes(64);
         params.loginSystem = 'kairai';
-        params.hashVersion = latestHashEnv.VERSION;
-        return await userRepository.create(params);
+        const newUser = new User(params);
+        await newUser.setPassword(params.password);
+
+        return await userRepository.create(newUser);
     },
 
     async createSocialUser(params) {
@@ -57,6 +50,15 @@ const userService = {
     async getBySocialId(socialUserId, loginSystem) {
         let user = await userRepository.getBySocialId(socialUserId, loginSystem);
         return this._decrypt_email(user);
+    },
+
+    async updatePassword(user, curPassword, newPassword) {
+        const passMatch = await user.comparePassword(curPassword);
+        if (!passMatch) {
+            throw new errors.KairaiError(errors.ErrorTypes.PASSWORD_DONOT_MATCH);
+        }
+        await user.setPassword(newPassword);
+        return await userRepository.update(user, ['password', 'salt', 'hashVersion']);
     },
 
     _decrypt_email(user) {

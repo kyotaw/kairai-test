@@ -29,6 +29,8 @@ function routes() {
     // users
     const users = root + 'users/';
     router.post(users, userController.create);
+    const password = users + 'password/';
+    router.put(password, authenticate, userController.updatePassword);
 
     // monos
     const monos = root + 'monos/';

@@ -48,6 +48,11 @@ export class KairaiApiService {
         return this._get(url);
     }
 
+    updatePassword(curPassword: string, newPassword: string) {
+        const url = this.baseUrl + 'users/password';
+        return this.http.put(url, {currentPassword: curPassword, newPassword: newPassword});
+    }
+
     _get(url, params={}): Observable<Object> {
         const options = {
             params: params,

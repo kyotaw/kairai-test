@@ -33,6 +33,17 @@ const userRepository = {
     async getBySocialId(socialUserId, loginSystem) {
         const entity = await UserEntity.find({where: {socialUserId: socialUserId, loginSystem: loginSystem}});
         return entity ? new User(entity) : null;
+    },
+
+    async update(user, keys) {
+        let params = {};
+        for (let key of keys) {
+            if (user[key] !== undefined) {
+                params[key] = user[key];
+            }
+        }
+        await UserEntity.update(params, {where: { id: user.id }});
+        return user;
     }
 }
 

@@ -5,15 +5,14 @@ const crypto = require('crypto')
 
 function encrypt(text, key, algo) {
     let cipher = crypto.createCipher(algo, key);
-    cipher.update(text, 'utf8', 'hex');
-    return cipher.final('hex');
+    let crypted = cipher.update(text, 'utf8', 'hex');
+    return crypted + cipher.final('hex');
 }
 
 function decrypt(encryptedText, key, algo) {
     let decipher = crypto.createDecipher(algo, key);
-    decipher.update(encryptedText, 'hex', 'utf8');
-    decipher.setAutoPadding(false);
-    return decipher.final('utf8');
+    let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+    return decrypted + decipher.final('utf8');
 }
 
 module.exports = {

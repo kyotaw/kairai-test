@@ -33,11 +33,9 @@ export class UserService {
 
     logout() {
         const user = this.getUser();
-        if (user) {
-            localStorage.removeItem('currentUser');
-            for (let delegate of this.delegates) {
-                delegate.loggedOut(user);
-            }
+        localStorage.removeItem('currentUser');
+        for (let delegate of this.delegates) {
+            delegate.loggedOut(user);
         }
     }
     
@@ -55,6 +53,12 @@ export class UserService {
         } else {
             return null;
         }
+    }
+
+    updatePassword(curPassword: string, newPassword: string) {
+        return this.kairaiApi.updatePassword(curPassword, newPassword).map(json => {
+            return json['status'] === 'success';
+        });
     }
 
     addListner(delegate: UserServiceDelegate) {

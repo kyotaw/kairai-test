@@ -1,16 +1,15 @@
 <div class="wrapper">
+  <h1 class="page-title">Login</h1>
   <h2 class="error-msg">{{errorMessage}}</h2>
   <div class="form-container">
-    <mat-form-field class="form-email">
+    <mat-form-field class="form-item">
       <input matInput placeholder="Enter your email" [formControl]="email" required>
       <mat-error *ngIf="email.invalid">{{emailErrorMessage}}</mat-error>
     </mat-form-field>
 
-    <br/>
-
-    <mat-form-field class="form-password">
+    <mat-form-field class="form-item">
       <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password" #master="ngModel" required>
-      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </mat-form-field>
 
     <div>
