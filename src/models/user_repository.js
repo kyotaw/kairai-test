@@ -1,7 +1,8 @@
 'use strict';
 
 const UserEntity = require('./entities/user_entity').UserEntity
-    , User = require('./user').User;
+    , User = require('./user').User
+    , monoRepository = require('./mono_repository');
 
 const userRepository = {
 
@@ -44,6 +45,11 @@ const userRepository = {
         }
         await UserEntity.update(params, {where: { id: user.id }});
         return user;
+    },
+
+    async delete(userId) {
+        await monoRepository.deleteByUserId(userId);
+        await UserEntity.destroy({ where: { userId: userId } });
     }
 }
 

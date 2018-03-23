@@ -1,8 +1,13 @@
 'use strict';
 
-function loginResponse(userId, accessToken) {
-    let data = accessToken.toDict();
-    data.userId = userId;
+function loginResponse(user, accessToken) {
+    let data = {
+        user: {
+            userId: user.userId,
+            email: user.plainEmail,
+        },
+        accessToken: accessToken.token
+    };
     return data;
 }
 

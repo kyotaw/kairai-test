@@ -44,6 +44,7 @@
         crypt: {
             AUTH_CRYPT_KEY: process.env.AUTH_CRYPT_KEY || settings.AUTH_CRYPT_KEY || null,
             AUTH_CRYPT_ALGO: process.env.AUTH_CRYPT_ALGO || settings.AUTH_CRYPT_ALGO || null,
+            AUTH_CRYPT_IV: process.env.AUTH_CRYPT_IV || settings.AUTH_CRYPT_IV || null,
         },
         accessToken: {
             JWT_KEY: process.env.AUTH_JWT_PUBLIC_KEY || settings.AUTH_JWT_PUBLIC_KEY || null,

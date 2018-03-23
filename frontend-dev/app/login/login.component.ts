@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
     hide_confirm = true;
     loading = false;
 
+    returnUrl: string;
+
     constructor(
         private userService: UserService,
         private route: ActivatedRoute,
@@ -26,8 +28,8 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        // reset login status
         this.userService.logout();
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/sensors';
     }
 
     login() {
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
         this.loading = true;
         this.userService.login(this.email.value, this.password)
             .subscribe(user => {
-                this.router.navigateByUrl('/sensors');
+                this.router.navigateByUrl(this.returnUrl);
                 this.loading = false;
             },
             error => {

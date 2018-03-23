@@ -29,6 +29,7 @@ function routes() {
     // users
     const users = root + 'users/';
     router.post(users, userController.create);
+    router.delete(users + ':userId', authenticate, userController.delete);
     const password = users + 'password/';
     router.put(password, authenticate, userController.updatePassword);
 

@@ -60,6 +60,16 @@ const monoRepository = {
         return mono;
     },
 
+    async deleteByUserId(userId) {
+        let monos = await this.getByUserId(userId);
+        for (let mono of monos) {
+            for (let ds of mono.dataSources) {
+                await dataSourceRepository.deleteByHash(ds.productId.hash);
+            }         
+            await MonoEntity.destroy({where: { ownerId: userId }});
+        }
+    },
+
     async _buildMono(entity) {
         if (!entity) {
             return null;

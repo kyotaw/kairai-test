@@ -2,7 +2,8 @@
 
 function userResponse(user) {
     let params = {
-        email: user.email
+        email: user.plainEmail,
+        userId: user.userId,
     }
     return params;
 }

@@ -2,6 +2,8 @@
 
 const hash = require('../helpers/hash')
     , hashEnv = require('../env').auth.hash
+    , cryptEnv = require('../env').auth.crypt
+    , decrypt = require('../helpers/crypt').decrypt;
 
 class User {
 
@@ -16,6 +18,14 @@ class User {
         this.salt = params.salt;
         this.hashVersion = params.hashVersion;
         this.loginSystem = params.loginSystem;
+    }
+
+    get plainEmail() {
+        if (this.email) {
+            return decrypt(this.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
+        } else {
+            return '';
+        }
     }
 
     async setPassword(plainPass) {
@@ -51,10 +61,9 @@ class User {
 
     toDict() {
         return {
-            userId: this.userId,
+            userId: this.userId || this.socialUserId,
             email: this.email,
             name: this.name,
-            socialUserId: this.socialUserId,
             loginSystem: this.loginSystem,
         }
     }

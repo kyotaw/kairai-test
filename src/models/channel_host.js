@@ -46,7 +46,7 @@ class ChannelHost {
     }
 
     async stop() {
-        this.conn.emit('stop');
+        this.conn.sendMessage('stop');
         this.status.state = ChannelStates.READY;
         console.log('State Ready')
     }

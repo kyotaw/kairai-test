@@ -5,7 +5,7 @@ const userRepository = require('../models/user_repository')
     , User = require('../models/user').User
     , cryptEnv = require('../env').auth.crypt
     , hash = require('../helpers/hash')
-    , { encrypt, decrypt } = require('../helpers/crypt');
+    , encrypt = require('../helpers/crypt').encrypt;
 
 const userService = {
 
@@ -38,18 +38,15 @@ const userService = {
     },
 
     async getById(id) {
-        let user = await userRepository.getById(id);
-        return this._decrypt_email(user);
+        return await userRepository.getById(id);
     },
     
     async getByUserId(userId) {
-        let user = await userRepository.getByUserId(userId);
-        return this._decrypt_email(user);
+        return  await userRepository.getByUserId(userId);
     },
 
     async getBySocialId(socialUserId, loginSystem) {
-        let user = await userRepository.getBySocialId(socialUserId, loginSystem);
-        return this._decrypt_email(user);
+        return await userRepository.getBySocialId(socialUserId, loginSystem);
     },
 
     async updatePassword(user, curPassword, newPassword) {
@@ -61,12 +58,10 @@ const userService = {
         return await userRepository.update(user, ['password', 'salt', 'hashVersion']);
     },
 
-    _decrypt_email(user) {
-        if (user.email) {
-            user.email = decrypt(user.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
-        }
-        return user;
-    }
+    async delete(userId) {
+        await userRepository.delete(userId);    
+    },
+
 }
 
 module.exports = userService;

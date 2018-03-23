@@ -22,8 +22,10 @@ export class UserService {
     login(email: string, password: string) {
         return this.kairaiApi.login(email, password).map(json => {
             let data = json['data'];
-            data.email = email;
-            const user = this._createUser(data);
+            let userData = data['user'];
+            let accessToken = data['accessToken'];
+            userData.accessToken = accessToken;
+            const user = this._createUser(userData);
             for (let delegate of this.delegates) {
                 delegate.loggedIn(user);
             }
@@ -55,6 +57,12 @@ export class UserService {
         }
     }
 
+    delete(userId: string) {
+        return this.kairaiApi.deleteUser(userId).map(json => {
+            return json['status'] === 'success';
+        });
+    }
+
     updatePassword(curPassword: string, newPassword: string) {
         return this.kairaiApi.updatePassword(curPassword, newPassword).map(json => {
             return json['status'] === 'success';
@@ -66,7 +74,7 @@ export class UserService {
     }
 
     _createUser(json: any) {
-        const user = new User(json.email, json.accessToken);
+        const user = new User(json['email'], json['userId'], json['accessToken']);
         localStorage.setItem('currentUser', JSON.stringify(user));
         return user;
     }

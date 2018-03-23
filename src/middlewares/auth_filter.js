@@ -19,7 +19,7 @@ passport.use(new jwt.Strategy(jwtOptions, (payload, done) => {
         if (user) {
             done(null, user, payload);
         } else {
-            done(new errors.KairaiError(errors.ErrorTypes.USER_NOT_FOUND));
+            done(null, null, null);
         }
     }).catch (err => {
         done(err);

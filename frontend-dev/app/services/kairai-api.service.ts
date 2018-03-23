@@ -30,7 +30,12 @@ export class KairaiApiService {
 
     createUser(email: string, password: string) {
         const url = this.baseUrl + 'users';
-        return this.http.post(url, {email: email, password: password});
+        return this._post(url, {email: email, password: password});
+    }
+
+    deleteUser(userId: string) {
+        const url = this.baseUrl + 'users/' + userId;
+        return this._delete(url);
     }
 
     login(email: string, password: string) {
@@ -50,14 +55,35 @@ export class KairaiApiService {
 
     updatePassword(curPassword: string, newPassword: string) {
         const url = this.baseUrl + 'users/password';
-        return this.http.put(url, {currentPassword: curPassword, newPassword: newPassword});
+        return this._put(url, {currentPassword: curPassword, newPassword: newPassword});
     }
 
-    _get(url, params={}): Observable<Object> {
+    _get(url, params={}) {
         const options = {
             params: params,
             withCredentials: true
         }
         return this.http.get(url, options);
+    }
+
+    _post(url, params) {
+        const options = {
+            withCredentials: true
+        }
+        return this.http.post(url, params, options);
+    }
+
+    _put(url, params) {
+        const options = {
+            withCredentials: true
+        }
+        return this.http.put(url, params, options); 
+    }
+
+    _delete(url) {
+        const options = {
+            withCredentials: true
+        }
+        return this.http.delete(url, options);
     }
 }
