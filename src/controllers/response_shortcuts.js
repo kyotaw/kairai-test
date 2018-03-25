@@ -19,6 +19,7 @@ function successResponse(res, data=null, dataName='data') {
 
 function errorResponse(res, err) {
     if (err) {
+        console.log(err);
         res.json({status: 'error', message: err.message, errorCode: err.errorType});
     } else {
         errorResponse(res, errors.internalError());
@@ -26,6 +27,7 @@ function errorResponse(res, err) {
 }
 
 function error500Response(res, err) {
+    console.log(err);
     res.status(500).json({status: 'error', message: err.message});
 }
 
