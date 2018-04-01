@@ -20,6 +20,8 @@ const ErrorTypes = {
 
     AUTH_NOT_AUTHORIZED: 601,
     AUTH_PASSWORD_DONOT_MATCH: 602,
+
+    FAILED_SEND_EMAIL: 701,
 }
 
 let ErrorMessages = {}
@@ -42,6 +44,8 @@ ErrorMessages[ErrorTypes.USER_NOT_FOUND] = 'the user not found';
 
 ErrorMessages[ErrorTypes.AUTH_NOT_AUTHORIZED] = 'authentication failed';
 ErrorMessages[ErrorTypes.AUTH_PASSWORD_DONOT_MATCH] = 'user id or password do not match';
+
+ErrorMessages[ErrorTypes.FAILED_SEND_EMAIL] = 'failed to send email';
 
 class KairaiError extends Error {
     constructor(errorType, message=null) {

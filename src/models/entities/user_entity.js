@@ -1,7 +1,6 @@
 'use strict';
 
-const db = require('../../infrastructures/sequelizedb')
-    , MonoEntity = require('./mono_entity').MonoEntity;
+const db = require('../../infrastructures/sequelizedb');
 
 const schema = {
     properties: {
@@ -13,6 +12,7 @@ const schema = {
         name: { type: db.Sequelize.STRING, allowNull: false, defaultValue: 'user' },
         salt: { type: db.Sequelize.TEXT, isEmail: true, allowNull: false},
         hashVersion: { type: db.Sequelize.INTEGER, allowNull: false},
+        cryptVersion: { type: db.Sequelize.INTEGER, allowNull: false},
         loginSystem: { type: db.Sequelize.STRING, allowNull: false },
     }
 }
@@ -21,5 +21,5 @@ const UserEntity = db.define('user', schema);
 
 module.exports = {
     UserEntity: UserEntity,
-    schema: schema
+    Schema: schema
 }

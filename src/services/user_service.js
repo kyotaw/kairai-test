@@ -13,17 +13,17 @@ const userService = {
         if (!params.email || !params.password) {
             throw new errors.KairaiError(errors.ErrorTypes.INVALID_PARAMETERS);
         }
-        const encryptedEmail = encrypt(params.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
-        const user = await userRepository.getByEmail(encryptedEmail);
-        if (user) {
-            throw new errors.KairaiError(errors.ErrorTypes.USER_ALREADY_EXISTS);
-        }
 
-        params.email = encryptedEmail;
         params.userId = hash.randomBytes(64);
         params.loginSystem = 'kairai';
         const newUser = new User(params);
         await newUser.setPassword(params.password);
+        await newUser.setEmail(params.email);
+        
+        const user = await userRepository.getByEmail(newUser.email);
+        if (user) {
+            throw new errors.KairaiError(errors.ErrorTypes.USER_ALREADY_EXISTS);
+        }
 
         return await userRepository.create(newUser);
     },

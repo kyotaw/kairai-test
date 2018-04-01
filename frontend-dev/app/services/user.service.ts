@@ -42,8 +42,8 @@ export class UserService {
     }
     
     signUp(email: string, password: string) {
-        return this.kairaiApi.createUser(email, password).map(json => {
-            return this._createUser(json['data']);
+        return this.kairaiApi.signUp(email, password).map(json => {
+            return json['status'] === 'success';
         });
     }
 

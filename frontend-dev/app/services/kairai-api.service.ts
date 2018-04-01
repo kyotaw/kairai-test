@@ -28,8 +28,8 @@ export class KairaiApiService {
         return this._get(url);
     }
 
-    createUser(email: string, password: string) {
-        const url = this.baseUrl + 'users';
+    signUp(email: string, password: string) {
+        const url = this.baseUrl + 'auth/signup';
         return this._post(url, {email: email, password: password});
     }
 

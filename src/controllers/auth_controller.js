@@ -27,7 +27,21 @@ const authController = {
         }).catch(err => {
             shortcut.error500Response(res, err);
         });
-    }
+    },
+
+    createUnauthUser(req, res) {
+        authService.createUnauthUser(req.body).then(() => {
+            shortcut.successResponse(res);
+        }).catch (err => {
+            if (err.errorType === errors.ErrorTypes.USER_ALREADY_EXISTS ||
+                err.errorType === errors.ErrorTypes.INVALID_PARAMETERS) {
+                res.status(400);
+                shortcut.errorResponse(res, err);
+            } else {
+                shortcut.error500Response(res, err);
+            }
+        });
+    },
 }
 
 module.exports = authController;

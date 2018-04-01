@@ -6,9 +6,9 @@ const UserEntity = require('./entities/user_entity').UserEntity
 
 const userRepository = {
 
-    async create(params) {
-        const entity = UserEntity.create(params);
-        return new User(params);
+    async create(user) {
+        await UserEntity.create(user);
+        return user;
     },
 
     async getByEmail(email) {

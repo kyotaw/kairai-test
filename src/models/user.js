@@ -3,7 +3,7 @@
 const hash = require('../helpers/hash')
     , hashEnv = require('../env').auth.hash
     , cryptEnv = require('../env').auth.crypt
-    , decrypt = require('../helpers/crypt').decrypt;
+    , {encrypt, decrypt} = require('../helpers/crypt');
 
 class User {
 
@@ -17,15 +17,28 @@ class User {
         this.name = params.name || params.userId || params.socialUserId || 'guest';
         this.salt = params.salt;
         this.hashVersion = params.hashVersion;
+        this.cryptVersion = params.cryptVersion;
         this.loginSystem = params.loginSystem;
     }
 
     get plainEmail() {
         if (this.email) {
-            return decrypt(this.email, cryptEnv.AUTH_CRYPT_KEY, cryptEnv.AUTH_CRYPT_ALGO);
+            return decrypt(
+                this.email,
+                cryptEnv.versions[this.cryptVersion].AUTH_CRYPT_KEY,
+                cryptEnv.versions[this.cryptVersion].AUTH_CRYPT_ALGO);
         } else {
             return '';
         }
+    }
+
+    async setEmail(plainEmail) {
+        const latestCryptEnv = cryptEnv.latestVersion;
+        this.email = encrypt(
+            plainEmail,
+            latestCryptEnv.AUTH_CRYPT_KEY,
+            latestCryptEnv.AUTH_CRYPT_ALGO);
+        this.cryptVersion = latestCryptEnv.VERSION;
     }
 
     async setPassword(plainPass) {

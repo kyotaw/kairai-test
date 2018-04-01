@@ -10,6 +10,8 @@
         console.log('Lot Settings.js failed');
     }
 
+    Env.HOME_URL = 'http://localhost:4200';
+
     Env.SRC_ROOT_DIR = __dirname;
 
 	Env.DB_HOST = process.env.DB_HOST || settings.DB_HOST || 'localhost';
@@ -30,11 +32,11 @@
         hash: {
             versions: [
                 {
-                    HASH_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 64,
-                    SALT_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || 16,
-                    ITERATION: process.env.AUTH_HASH_ITERATION_V0 || 100000,
-                    ALGO: process.env.AUTH_HASH_ALGO_V0 || 'sha512',
-                    VERSION: process.env.AUTH_HASH_VERSION_V0 || 0
+                    HASH_LENGTH: process.env.AUTH_HASH_LENGTH_V0 || settings.AUTH_HASH_LENGTH_V0 || null,
+                    SALT_LENGTH: process.env.AUTH_HASH_SALT_LENGTH_V0 || settings.AUTH_HASH_SALT_LENGTH_V0 || null,
+                    ITERATION: process.env.AUTH_HASH_ITERATION_V0 || settings.AUTH_HASH_ITERATION_V0 || null,
+                    ALGO: process.env.AUTH_HASH_ALGO_V0 || settings.AUTH_HASH_ALGO_V0 || null,
+                    VERSION: 0
                 }
             ],
             get latestVersion() {
@@ -42,9 +44,17 @@
             } 
         },
         crypt: {
-            AUTH_CRYPT_KEY: process.env.AUTH_CRYPT_KEY || settings.AUTH_CRYPT_KEY || null,
-            AUTH_CRYPT_ALGO: process.env.AUTH_CRYPT_ALGO || settings.AUTH_CRYPT_ALGO || null,
-            AUTH_CRYPT_IV: process.env.AUTH_CRYPT_IV || settings.AUTH_CRYPT_IV || null,
+            versions: [
+                {
+                    AUTH_CRYPT_KEY: process.env.AUTH_CRYPT_KEY_V0 || settings.AUTH_CRYPT_KEY_V0 || null,
+                    AUTH_CRYPT_ALGO: process.env.AUTH_CRYPT_ALGO_V0 || settings.AUTH_CRYPT_ALGO_V0 || null,
+                    AUTH_CRYPT_IV: process.env.AUTH_CRYPT_IV_V0 || settings.AUTH_CRYPT_IV_V0 || null,
+                    VERSION: 0 
+                } 
+            ],
+            get latestVersion() {
+                return Env.auth.crypt.versions[Env.auth.crypt.versions.length - 1];
+            } 
         },
         accessToken: {
             JWT_KEY: process.env.AUTH_JWT_PUBLIC_KEY || settings.AUTH_JWT_PUBLIC_KEY || null,
@@ -59,7 +69,17 @@
             CALLBACK_URL: process.env.GOOGLE_AUTH_CALLBACK_URL || settings.GOOGLE_AUTH_CALLBACK_URL || '',
             CALLBACK_PATH: process.env.GOOGLE_AUTH_CALLBACK_PATH || settings.GOOGLE_AUTH_CALLBACK_PATH || '',
         }
-    }
+    },
+
+    Env.cert = {
+        EXPIRES_IN: process.env.CERT_EXPIRES_IN || settings.CERT_EXPIRES_IN || 1200000,
+        email: {
+            HOST: process.env.CERT_EMAIL_HOST || settings.CERT_EMAIL_HOST || null,
+            PORT: process.env.CERT_EMAIL_PORT || settings.CERT_EMAIL_PORT || null,
+            USER: process.env.CERT_EMAIL_USER || settings.CERT_EMAIL_USER || null,
+            PASSWORD: process.env.CERT_EMAIL_PASSWORD || settings.CERT_EMAIL_PASSWORD || null,
+        }
+    },
 
     Env.channel = {
         maxFps: process.env.CHANNEL_MAX_FPS || settings.CHANNEL_MAX_FPS || 500
